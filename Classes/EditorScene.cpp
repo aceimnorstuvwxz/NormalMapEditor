@@ -124,10 +124,17 @@ void EditorScene::initKeyboardMouse()
             selectPoint(rawpos);
         }
 
-        return false;
+        return _selectedPoints.size() > 0;
     };
 
     listener->onTouchMoved = [this](Touch* touch, Event* event){
+
+        auto move = touch->getDelta() * 0.25;
+        for (auto point : _selectedPoints) {
+            point->sprite->setPosition(point->sprite->getPosition() + move);
+            point->position = help_editPosition2relativePosition(point->sprite->getPosition());
+        }
+
     };
 
     listener->onTouchEnded = [this](Touch* touch, Event* event){

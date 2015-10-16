@@ -86,7 +86,7 @@ void EETrianglesNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
     glProgram->setUniformLocationWith1i(loc, _showState);
     loc = glProgram->getUniformLocation("u_light_position");
     glProgram->setUniformLocationWith2fv(loc, &(_lightPos.x), 1);
-    CCLOG("%f %f", _lightPos.x, _lightPos.y);
+//    CCLOG("%f %f", _lightPos.x, _lightPos.y);
 
     glProgram->setUniformsForBuiltins(transform);
 
