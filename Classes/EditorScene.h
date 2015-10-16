@@ -124,13 +124,12 @@ protected:
     cocos2d::Layer* _pointLayer;
 
 
-
-
     // key state
     bool _ks_addPoint = false;
     bool _ks_deletePoint = false;
     bool _ks_addLine = false;
     bool _ks_deleteLine = false;
+    bool _ks_selection = false;
 
     void initKeyboardMouse();
 
@@ -138,6 +137,7 @@ protected:
     std::list<std::shared_ptr<EELine>> _lines;
     std::list<std::shared_ptr<EETriangle>> _triangles;
     void addPoint(const cocos2d::Vec2& rawpos);
+    void selectPoint(const cocos2d::Vec2 rawpos);
     void deletePoint(const cocos2d::Vec2& rawpos);
 
     std::shared_ptr<EEPoint> _firstSelectedPoint = nullptr;
@@ -158,8 +158,9 @@ protected:
     cocos2d::Vec2 _lightPos;
     void addTestLights();
 
-    void update(float dt) override;
 
+    std::list<std::shared_ptr<EEPoint>> _selectedPoints;
+    void clearSelection();
 
 };
 

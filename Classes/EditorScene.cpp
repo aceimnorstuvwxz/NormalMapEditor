@@ -66,6 +66,13 @@ void EditorScene::initKeyboardMouse()
             case EventKeyboard::KeyCode::KEY_G:
                 _ks_deleteLine = true;
                 break;
+            case EventKeyboard::KeyCode::KEY_A:
+                _ks_selection = true;
+                break;
+            case EventKeyboard::KeyCode::KEY_D:
+                clearSelection();
+                break;
+
 
             default:
                 break;
@@ -87,6 +94,9 @@ void EditorScene::initKeyboardMouse()
                 break;
             case EventKeyboard::KeyCode::KEY_G:
                 _ks_deleteLine = false;
+                break;
+            case EventKeyboard::KeyCode::KEY_A:
+                _ks_selection = false;
                 break;
 
             default:
@@ -110,6 +120,8 @@ void EditorScene::initKeyboardMouse()
             addLine(rawpos);
         } else if (_ks_deleteLine) {
             deleteLine(rawpos);
+        } else if (_ks_selection) {
+            selectPoint(rawpos);
         }
 
         return false;
@@ -152,6 +164,27 @@ void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
     _pointLayer->addChild(point->sprite);
     _points.push_back(point);
 }
+
+void EditorScene:: selectPoint(const cocos2d::Vec2 rawpos)
+{
+    auto point = findSelectedPoint(rawpos);
+    if (point) {
+        point->sprite->setTexture("images/point_selected.png");
+        bool needToUnselect = false;
+        for (auto p : _selectedPoints) {
+            if (p == point) {
+                needToUnselect = true;
+            }
+        }
+        if (needToUnselect) {
+            point->sprite->setTexture("images/point_normal.png");
+            _selectedPoints.remove(point);
+        } else {
+            _selectedPoints.push_back(point);
+        }
+    }
+}
+
 
 std::shared_ptr<EEPoint> EditorScene::findSelectedPoint(const cocos2d::Vec2& rawpos)
 {
@@ -321,6 +354,10 @@ void EditorScene::addTestLights()
     _pointLayer->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, _pointLayer);
 }
 
-void EditorScene::update(float dt)
+void EditorScene::clearSelection()
 {
+    for (auto point : _selectedPoints) {
+        point->sprite->setTexture("images/point_normal.png");
+    }
+    _selectedPoints.clear();
 }
