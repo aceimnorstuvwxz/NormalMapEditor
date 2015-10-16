@@ -134,6 +134,7 @@ void EditorScene::initKeyboardMouse()
             point->sprite->setPosition(point->sprite->getPosition() + move);
             point->position = help_editPosition2relativePosition(point->sprite->getPosition());
         }
+        this->refreshLines();
 
     };
 
