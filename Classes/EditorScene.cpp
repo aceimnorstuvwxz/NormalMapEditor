@@ -11,12 +11,6 @@ bool EditorScene::init()
     _layer = Layer::create();
     this->addChild(_layer);
 
-
-    auto sp = Sprite::create("images/dungeoncraft.png");
-    sp->setPosition(genPos({0.5,0.75}));
-    _layer->addChild(sp);
-    auto size = Director::getInstance()->getWinSize();
-
     _pointLayer = Layer::create();
     _pointLayer->setPosition(genPos({0.5,0.5}));
     this->addChild(_pointLayer);
