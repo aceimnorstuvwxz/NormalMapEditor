@@ -59,11 +59,11 @@ protected:
     void initKeyboardMouse();
 
 
-    std::vector<std::shared_ptr<EEPoint>> points;
-    std::vector<std::shared_ptr<EELine>> lines;
-    std::vector<std::shared_ptr<EETriangle>> triangles;
-    void addPoint(const cocos2d::Vec2& pos);
-    void deletePoint(const cocos2d::Vec2& pos);
+    std::list<std::shared_ptr<EEPoint>> _points;
+    std::vector<std::shared_ptr<EELine>> _lines;
+    std::vector<std::shared_ptr<EETriangle>> _triangles;
+    void addPoint(const cocos2d::Vec2& rawpos);
+    void deletePoint(const cocos2d::Vec2& rawpos);
 
 };
 

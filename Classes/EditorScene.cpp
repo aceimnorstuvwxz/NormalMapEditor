@@ -89,12 +89,13 @@ void EditorScene::initKeyboardMouse()
     auto listener = EventListenerTouchOneByOne::create();
 
     listener->onTouchBegan = [this](Touch* touch, Event* event){
-        auto pos = help_touchPoint2editPosition(touch->getLocation());
-        CCLOG("click in at %f %f", pos.x, pos.y);
+        auto rawpos = touch->getLocation();
+        CCLOG("click in at %f %f", rawpos.x, rawpos.y);
 
         if (_ks_addPoint) {
-            CCLOG("add point");
-            addPoint(pos);
+            addPoint(rawpos);
+        } else if (_ks_deletePoint) {
+            deletePoint(rawpos);
         }
 
         return false;
@@ -125,8 +126,9 @@ cocos2d::Vec2 EditorScene::help_relativePosition2editPosition(const cocos2d::Vec
 }
 
 
-void EditorScene::addPoint(const cocos2d::Vec2 &pos)
+void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
 {
+    auto pos = help_touchPoint2editPosition(rawpos);
     auto point = std::make_shared<EEPoint>();
     point->position = help_editPosition2relativePosition(pos);
     point->height = 0;
@@ -135,4 +137,22 @@ void EditorScene::addPoint(const cocos2d::Vec2 &pos)
     point->sprite->setZOrder(Z_POINTS);
     point->sprite->setScale(0.1);
     _pointLayer->addChild(point->sprite);
+    _points.push_back(point);
+}
+
+void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
+{
+    auto pos = help_touchPoint2editPosition(rawpos);
+
+    for (auto & point : _points) {
+        auto distance = point->sprite->getPosition().distance(pos);
+        if (distance < point->sprite->getContentSize().width * point->sprite->getScale() /2){
+            CCLOG("delete point");
+            _pointLayer->removeChild(point->sprite);
+            _points.remove(point);
+            return;
+        }
+    }
+
+
 }
