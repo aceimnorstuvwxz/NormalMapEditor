@@ -72,10 +72,10 @@ void EditorScene::initKeyboardMouse()
             case EventKeyboard::KeyCode::KEY_D:
                 clearSelection();
                 break;
-            case EventKeyboard::KeyCode::KEY_B:
-                moveUp(false);
+            case EventKeyboard::KeyCode::KEY_W:
+                moveUp(true);
                 break;
-            case EventKeyboard::KeyCode::KEY_V:
+            case EventKeyboard::KeyCode::KEY_S:
                 moveUp(false);
                 break;
 

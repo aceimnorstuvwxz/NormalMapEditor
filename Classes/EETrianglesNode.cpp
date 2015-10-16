@@ -60,7 +60,7 @@ void EETrianglesNode::prepareShaders()
 
     auto glprogram = GLProgram::createWithByteArrays(vertSource.c_str(), fragSource.c_str());
     glprogram->bindAttribLocation("a_positioin", 0);
-    glprogram->bindAttribLocation("a_normal", 1);
+    glprogram->bindAttribLocation("a_normal2", 1);
     glprogram->bindAttribLocation("a_color2", 2);
 
     glprogram->link();
@@ -86,7 +86,7 @@ void EETrianglesNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
     glProgram->setUniformLocationWith1i(loc, _showState);
     loc = glProgram->getUniformLocation("u_light_position");
     glProgram->setUniformLocationWith2fv(loc, &(_lightPos.x), 1);
-//    CCLOG("%f %f", _lightPos.x, _lightPos.y);
+    CCLOG("%f %f", _lightPos.x, _lightPos.y);
 
     glProgram->setUniformsForBuiltins(transform);
 
@@ -124,19 +124,56 @@ void EETrianglesNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
     CHECK_GL_ERROR_DEBUG();
 }
 
+Vec3 calcTriangleNormal(Vec3 a, Vec3 b, Vec3 c)
+{
+    /*
+    Begin Function CalculateSurfaceNormal (Input Triangle) Returns Vector
+
+    Set Vector U to (Triangle.p2 minus Triangle.p1)
+    Set Vector V to (Triangle.p3 minus Triangle.p1)
+
+    Set Normal.x to (multiply U.y by V.z) minus (multiply U.z by V.y)
+    Set Normal.y to (multiply U.z by V.x) minus (multiply U.x by V.z)
+    Set Normal.z to (multiply U.x by V.y) minus (multiply U.y by V.x)
+
+    Returning Normal
+    
+    End Function
+     */
+    Vec3 U = b - a;
+    Vec3 V = c - a;
+    Vec3 N;
+    N.x = U.y * V.z - U.z * V.y;
+    N.y = U.z * V.x - U.x * V.z;
+    N.z = U.x * V.y - U.y * V.x;
+
+    if (N.dot({0,0,1}) < 0) {
+        N = -N;
+    }
+    return N;
+}
+
 void EETrianglesNode::configTriangles(const std::list<std::shared_ptr<EETriangle>>& triangles)
 {
     _count = 0;
     _dirty = true;
     for (auto triangle : triangles) {
+        // normal
+        auto normal = calcTriangleNormal(triangle->a->pos3d(), triangle->b->pos3d(), triangle->c->pos3d());
+        CCLOG("normal %f %f %f", normal.x, normal.y, normal.z);
+
+
         _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(triangle->a->position);
         _vertexData[_count].color = {0.5,0.5,0.5,1.0};
+        _vertexData[_count].normal = normal;
         _count++;
         _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(triangle->b->position);
         _vertexData[_count].color = {0.5,0.5,0.5,1.0};
+        _vertexData[_count].normal = normal;
         _count++;
         _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(triangle->c->position);
         _vertexData[_count].color = {0.5,0.5,0.5,1.0};
+        _vertexData[_count].normal = normal;
         _count++;
     }
 }

@@ -14,6 +14,7 @@ struct EEPoint
     cocos2d::Vec2 position; // relative position
     cocos2d::Sprite* sprite;
     float height;
+    cocos2d::Vec3 pos3d(){return {position.x, position.y, height};}
 };
 
 struct EELine
