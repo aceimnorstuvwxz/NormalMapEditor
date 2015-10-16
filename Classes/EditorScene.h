@@ -9,7 +9,7 @@
 struct EEPoint
 {
     int pid;
-    cocos2d::Vec2 position;
+    cocos2d::Vec2 position; // relative position
     cocos2d::Sprite* sprite;
     float height;
 };
@@ -32,6 +32,10 @@ struct EETriangle
 class EditorScene:public TRBaseScene
 {
 public:
+    enum Z_ORDER
+    {
+        Z_POINTS,
+    };
     virtual bool init() override;
     CREATE_FUNC(EditorScene);
 
@@ -47,13 +51,19 @@ protected:
     bool _ks_deletePoint = false;
     bool _ks_addLine = false;
     bool _ks_deleteLine = false;
+    // touchPoint 是由touch->getLocation返回的。 editPosition是以界面中心为原点的，不过单位与touchPoint一样。
     cocos2d::Vec2 help_touchPoint2editPosition(const cocos2d::Vec2& touchpoint);
+    // 而relativePosition是[-1,1]的单位。
+    cocos2d::Vec2 help_editPosition2relativePosition(const cocos2d::Vec2& editposition);
+    cocos2d::Vec2 help_relativePosition2editPosition(const cocos2d::Vec2& relativePosition);
     void initKeyboardMouse();
 
 
     std::vector<std::shared_ptr<EEPoint>> points;
     std::vector<std::shared_ptr<EELine>> lines;
     std::vector<std::shared_ptr<EETriangle>> triangles;
+    void addPoint(const cocos2d::Vec2& pos);
+    void deletePoint(const cocos2d::Vec2& pos);
 
 };
 

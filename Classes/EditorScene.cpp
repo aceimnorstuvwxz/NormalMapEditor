@@ -34,6 +34,8 @@ cocos2d::Vec2 EditorScene::help_touchPoint2editPosition(const cocos2d::Vec2& tou
     return {touchpoint.x - size.width/2, touchpoint.y - size.height/2};
 }
 
+
+
 void EditorScene::initKeyboardMouse()
 {
     auto _keyboardListener = EventListenerKeyboard::create();
@@ -92,7 +94,7 @@ void EditorScene::initKeyboardMouse()
 
         if (_ks_addPoint) {
             CCLOG("add point");
-
+            addPoint(pos);
         }
 
         return false;
@@ -109,4 +111,28 @@ void EditorScene::initKeyboardMouse()
 
     _pointLayer->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, _pointLayer);
 
+}
+
+cocos2d::Vec2 EditorScene::help_editPosition2relativePosition(const cocos2d::Vec2& editposition)
+{
+    auto size = Director::getInstance()->getWinSize();
+    return {editposition.x / (size.width/2), editposition.y / (size.width/2)};
+}
+cocos2d::Vec2 EditorScene::help_relativePosition2editPosition(const cocos2d::Vec2& relativePosition)
+{
+    auto size = Director::getInstance()->getWinSize();
+    return {relativePosition.x * size.width/2, relativePosition.y * size.width/2};
+}
+
+
+void EditorScene::addPoint(const cocos2d::Vec2 &pos)
+{
+    auto point = std::make_shared<EEPoint>();
+    point->position = help_editPosition2relativePosition(pos);
+    point->height = 0;
+    point->sprite = Sprite::create("images/point_normal.png");
+    point->sprite->setPosition(help_relativePosition2editPosition(point->position));
+    point->sprite->setZOrder(Z_POINTS);
+    point->sprite->setScale(0.1);
+    _pointLayer->addChild(point->sprite);
 }
