@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Leaderboards</key>
+	<array>
+		<string>nifl_gen_c0s0</string>
+		<string>nifl_gen_c0s1</string>
+		<string>nifl_gen_c0s2</string>
+		<string>nifl_gen_c0s3</string>
+		<string>nifl_gen_c1s0</string>
+		<string>nifl_gen_c1s1</string>
+		<string>nifl_gen_c1s2</string>
+		<string>nifl_gen_c1s3</string>
+		<string>nifl_gen_c2s0</string>
+		<string>nifl_gen_c2s1</string>
+		<string>nifl_gen_c2s2</string>
+		<string>nifl_gen_c3s0</string>
+		<string>nifl_gen_c3s1</string>
+		<string>nifl_gen_c3s2</string>
+		<string>nifl_gen_c4s0</string>
+		<string>nifl_gen_c4s1</string>
+		<string>nifl_gen_c5s0</string>
+		<string>nifl_end_0</string>
+		<string>nifl_end_1</string>
+		<string>nifl_end_2</string>
+		<string>nifl_end_3</string>
+	</array>
+	<key>Achievements</key>
+	<array>
+		<string>70084649</string>
+	</array>
+</dict>
+</plist>

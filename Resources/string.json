@@ -1,0 +1,229 @@
+{
+    "CHINESE":
+    {
+        "__font__":"fz",
+        "__#0#__":"#############菜單字符串###########",
+
+        "battle_tap_to_invade":"开始攻占",
+        "battle_its_blocked_minmap":"无效地域",
+
+
+
+
+        "head_main_menu":"主菜单",
+        "head_story_mode":"游戏",
+        "head_records":"排行榜",
+        "head_options":"选项",
+        "head_help":"帮助",
+        "head_loading":"载入",
+        "head_credit":"制作人员",
+        "head_infinite":"无尽模式",
+
+        "back":"返回",
+        "story_mode":"游戏",
+        "infinite_mode":"无尽模式",
+        "records":"排行榜",
+        "options":"选项",
+        "help":"帮助",
+        "locked":"???",
+
+        "sett_music":"音乐",
+        "sett_sfx":"音效",
+        "sett_language":"语言",
+        "sett_on":"开着",
+        "sett_off":"没开",
+        "language_name":"中文",
+        "help_rate":"去评价",
+        "help_credits":"制作人员",
+        "help_info":"-按下以跑动\n-释放会跳跃\n-再次按住来着陆",
+        "credit_info":"ScatOrc Studio\nscatorc.turnro.com",
+
+        "end_random":"随机选择",
+
+        "__#1#__":"#############游戏内UI字符串###########",
+        "restart":"重新开始",
+        "next_section":"下一节",
+        "to_menu":"返回",
+        "pause_return_game":"继续",
+        "pause_return_menu":"返回菜单",
+
+
+        "__#2#__":"#############地圖相關菜單字符串###########",
+        "n_c0":"§起初",
+        "n_c0s0":"无知",
+        "m_c0s0":"\"按住，前进。\"",
+        "n_c0s1":"否定",
+        "m_c0s1":"\"放开，跳跃。\"",
+        "n_c0s2":"适应",
+        "m_c0s2":"\"按住可以加速着陆。\"",
+        "n_c0s3":"理解",
+        "m_c0s3":"\"别犹豫。\"",
+
+        "n_c1":"§少佐",
+        "n_c1s0":"勇气",
+        "m_c1s0":"\"一旦勇敢，立刻自由。\"",
+        "n_c1s1":"忐忑",
+        "m_c1s1":"\"躲得过对酒当歌的夜，\n躲不过四下无人的街。\"",
+        "n_c1s2":"逍遥",
+        "m_c1s2":"\"醉后不知天在水，满船清梦压星河。\"",
+        "n_c1s3":"心声",
+        "m_c1s3":"\"虽渺小，但强烈。\"",
+
+        "n_c2":"§巴特",
+        "n_c2s0":"玩偶",
+        "m_c2s0":"\"一线断时，落落磊磊。\"",
+        "n_c2s1":"秘密",
+        "m_c2s1":"\"1010 1100 1001\"",
+        "n_c2s2":"使命",
+        "m_c2s2":"\"未知生，焉知死。\"",
+
+        "n_c3":"§素子",
+        "n_c3s0":"蜿蜒",
+        "m_c3s0":"\"春日和丽，马车穿梭彼世此世。\"",
+        "n_c3s1":"沼泽",
+        "m_c3s1":"\"其数何等众多。我若数点，比海沙更多。\"",
+        "n_c3s2":"天空",
+        "m_c3s2":"\"鸟隐于天高。\"",
+
+
+        "n_c4":"§梦境",
+        "n_c4s0":"镜子",
+        "m_c4s0":"\"镜可窥见，不可久视。\"",
+        "n_c4s1":"理想",
+        "m_c4s1":"\"十年饮冰，难凉热血。\"",
+
+        "n_c5":"§尾声",
+        "n_c5s0":"形容",
+        "m_c5s0":"\"若吾起舞时，丽人亦沉醉。\"",
+
+        "__#3#__":"#############无尽模式###########",
+
+        "n_en_0":"风",
+        "m_en_0":"\"风哪会留恋。\"",
+        "n_en_1":"林",
+        "m_en_1":"\"独步天下，吾心自洁，\n 无欲无求，如林中之象。\"",
+        "n_en_2":"火",
+        "m_en_2":"\"你总会光芒万丈。\"",
+        "n_en_3":"山",
+        "m_en_3":"\"我见青山多妩媚 ，料青山见我应如是。\"",
+        "n_en_4":"静",
+        "m_en_4":"\"致我们的伟大友谊。\"",
+
+
+        "__#$#__":"---end---"
+    },
+	"ENGLISH":
+	{
+        "__font__":"Titillium-Light",
+        "__#0#__":"#############菜單字符串###########",
+
+
+        "battle_tap_to_invade":"Invade Start",
+        "battle_its_blocked_minmap":"Invalid Space",
+
+
+
+
+        "head_main_menu":"MAIN MENU",
+        "head_story_mode":"PLAY",
+        "head_records":"RECORDS",
+        "head_options":"OPTIONS",
+        "head_help":"HELP",
+        "head_loading":"LOADING",
+        "head_credit":"CREDITS",
+        "head_infinite":"ENDLESS MODE",
+
+        "back":"BACK",
+        "story_mode":"Play",
+        "infinite_mode":"Endless Mode",
+        "records":"Records",
+        "options":"Options",
+        "help":"Help",
+        "locked":"???",
+
+
+        "sett_music":"Music",
+        "sett_sfx":"Sound Effect",
+        "sett_language":"Language",
+        "sett_on":"On",
+        "sett_off":"Off",
+        "language_name":"English",
+        "help_rate":"To Rate",
+        "help_credits":"Credits",
+        "help_info":"-Tap and hold to run\n-Release to jump\n-Hold again to land",
+        "credit_info":"ScatOrc Studio\nscatorc.turnro.com",
+
+        "end_random":"Random All",
+
+        "__#1#__":"#############游戏内UI字符串###########",
+        "restart":"Restart",
+        "next_section":"Next Level",
+        "to_menu":"Back To Menu",
+        "pause_return_game":"Continue",
+        "pause_return_menu":"Back To Menu",
+
+
+        "__#2#__":"#############地圖相關菜單字符串###########",
+        "n_c0":"§INTRO",
+        "n_c0s0":"Ignorance",
+        "m_c0s0":"\"Tap and hold to run.\"",
+        "n_c0s1":"Denial",
+        "m_c0s1":"\"Release to jump.\"",
+        "n_c0s2":"Adaptation",
+        "m_c0s2":"\"Hold again to land.\"",
+        "n_c0s3":"Understanding",
+        "m_c0s3":"\"It has patterns.\"",
+
+        "n_c1":"§KORO",
+        "n_c1s0":"Courage",
+        "m_c1s0":"\"Who dares Wins.\"",
+        "n_c1s1":"Worry",
+        "m_c1s1":"\"Avoid them wine and song of the night, \nno one around the street become obvious\"",
+        "n_c1s2":"Patience",
+        "m_c1s2":"\"Sometimes you win,\n sometimes you learn.\"",
+        "n_c1s3":"Existence",
+        "m_c1s3":"\"Small, but potent.\"",
+
+        "n_c2":"§BATT",
+        "n_c2s0":"Puppet",
+        "m_c2s0":"\"Old school games.\"",
+        "n_c2s1":"Code",
+        "m_c2s1":"\"1010 1100 1001\"",
+        "n_c2s2":"White",
+        "m_c2s2":"\"Autumn is comming.\"",
+
+        "n_c3":"§SUZI",
+        "n_c3s0":"Labyrinth",
+        "m_c3s0":"\"Following something.\"",
+        "n_c3s1":"Swamp",
+        "m_c3s1":"\"Still water runs deep. \"",
+        "n_c3s2":"Sky",
+        "m_c3s2":"\"Live together.\"",
+
+
+        "n_c4":"§MARE",
+        "n_c4s0":"Mirror",
+        "m_c4s0":"\"See more, desire more.\"",
+        "n_c4s1":"Passion",
+        "m_c4s1":"\"Survival, then revival.\"",
+
+        "n_c5":"§ENDING",
+        "n_c5s0":"Battle",
+        "m_c5s0":"\"So drew your sword.\"",
+
+        "__#3#__":"#############无尽模式###########",
+
+        "n_en_0":"Wind",
+        "m_en_0":"\"Wind never nostalgia.\"",
+        "n_en_1":"Forest",
+        "m_en_1":"\"Walk in the woods.\"",
+        "n_en_2":"Fire",
+        "m_en_2":"\"Always shine.\"",
+        "n_en_3":"Mountain",
+        "m_en_3":"\"We real cool. \"",
+        "n_en_4":"静",
+        "m_en_4":"\"致我们的伟大友谊。\"",
+
+        "__#$#__":"---end---"
+	}
+}
