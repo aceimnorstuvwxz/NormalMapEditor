@@ -147,6 +147,8 @@
 		B59492A61BD0E5F0006C2E7B /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492A31BD0E533006C2E7B /* EditorScene.cpp */; };
 		B59492AC1BD126E0006C2E7B /* EELinesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */; settings = {ASSET_TAGS = (); }; };
 		B59492AD1BD126E0006C2E7B /* EELinesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */; settings = {ASSET_TAGS = (); }; };
+		B59492B11BD1360A006C2E7B /* EETrianglesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */; settings = {ASSET_TAGS = (); }; };
+		B59492B21BD1360A006C2E7B /* EETrianglesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D01BC25A3D002FDE82 /* BattleField-low.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1CE1BC25A3D002FDE82 /* BattleField-low.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D31BC282B1002FDE82 /* BattleField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1D21BC282B1002FDE82 /* BattleField.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D51BC28908002FDE82 /* BattleField-middle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1D41BC28908002FDE82 /* BattleField-middle.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -297,6 +299,7 @@
 		B59492A31BD0E533006C2E7B /* EditorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorScene.cpp; sourceTree = "<group>"; };
 		B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EELinesNode.cpp; sourceTree = "<group>"; };
 		B59492AF1BD129D9006C2E7B /* EditorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorScene.h; sourceTree = "<group>"; };
+		B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EETrianglesNode.cpp; sourceTree = "<group>"; };
 		B5F3A1CE1BC25A3D002FDE82 /* BattleField-low.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "BattleField-low.cpp"; sourceTree = "<group>"; };
 		B5F3A1CF1BC25A3D002FDE82 /* BattleField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleField.h; sourceTree = "<group>"; };
 		B5F3A1D21BC282B1002FDE82 /* BattleField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleField.cpp; sourceTree = "<group>"; };
@@ -595,6 +598,7 @@
 				B59492AF1BD129D9006C2E7B /* EditorScene.h */,
 				B59492A31BD0E533006C2E7B /* EditorScene.cpp */,
 				B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */,
+				B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */,
 			);
 			name = editor;
 			sourceTree = "<group>";
@@ -815,6 +819,7 @@
 				B5F3A1D51BC28908002FDE82 /* BattleField-middle.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				B5F85DDE1BC9342200905498 /* DDMapData-minmap.cpp in Sources */,
+				B59492B11BD1360A006C2E7B /* EETrianglesNode.cpp in Sources */,
 				B539EAA61BBE5F8D00311CDC /* GameScene-battle.cpp in Sources */,
 				B51A33D91BBD8CEA00024A34 /* EditState.cpp in Sources */,
 				B59171FA1BCAA2AF0070CD81 /* DDProtocals.cpp in Sources */,
@@ -838,6 +843,7 @@
 				B59492A61BD0E5F0006C2E7B /* EditorScene.cpp in Sources */,
 				B52159C41BCFED200022EC33 /* EditState.cpp in Sources */,
 				B59492AD1BD126E0006C2E7B /* EELinesNode.cpp in Sources */,
+				B59492B21BD1360A006C2E7B /* EETrianglesNode.cpp in Sources */,
 				B52159C51BCFED200022EC33 /* EditState.h in Sources */,
 				B52159C61BCFED200022EC33 /* format.cpp in Sources */,
 				B52159C71BCFED200022EC33 /* format.h in Sources */,

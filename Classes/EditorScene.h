@@ -49,8 +49,44 @@ protected:
     void prepareShaders(); //初始化shader program
     cocos2d::GLProgramState* _programState = nullptr;//共享的PROGRAM
     cocos2d::CustomCommand _command;
-    constexpr static int NUM_MAX_VERTEXS = 1000;
+    constexpr static int NUM_MAX_VERTEXS = 10000;
     EELinesNodeVertexFormat _vertexData[NUM_MAX_VERTEXS];
+    int _count;
+    bool _dirty = true;
+};
+
+struct EETrianglesNodeVertexFormat
+{
+    cocos2d::Vec2 position;
+    cocos2d::Vec3 normal;
+    cocos2d::Vec4 color;
+};
+
+class EETrianglesNode:public cocos2d::Node
+{
+public:
+    enum ShowState{
+        SS_PREVIEW = 0,
+        SS_NORMAL_MAP = 0,
+        SS_TEXTURE = 0
+    };
+    CREATE_FUNC(EETrianglesNode);
+    virtual bool init()override;
+    void onDraw(const cocos2d::Mat4 &transform, uint32_t flags);
+    void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)override;
+    void configTriangles(const std::list<std::shared_ptr<EETriangle>>& triangles);
+    void configShowState(int state) { _showState = state;}
+
+protected:
+    int _showState = SS_PREVIEW;
+    void prepareVertexData(); //初始化VAO/VBO
+    GLuint _vao; //共享的VAO
+    GLuint _vbo; //共享的VBO
+    void prepareShaders(); //初始化shader program
+    cocos2d::GLProgramState* _programState = nullptr;//共享的PROGRAM
+    cocos2d::CustomCommand _command;
+    constexpr static int NUM_MAX_VERTEXS = 10000;
+    EETrianglesNodeVertexFormat _vertexData[NUM_MAX_VERTEXS];
     int _count;
     bool _dirty = true;
 };
@@ -61,6 +97,7 @@ class EditorScene:public TRBaseScene
 public:
     enum Z_ORDER
     {
+        Z_TRIANGLES,
         Z_LINES,
         Z_POINTS,
     };
@@ -73,6 +110,7 @@ public:
     // 而relativePosition是[-1,1]的单位。
     static cocos2d::Vec2 help_editPosition2relativePosition(const cocos2d::Vec2& editposition);
     static cocos2d::Vec2 help_relativePosition2editPosition(const cocos2d::Vec2& relativePosition);
+    static std::shared_ptr<EEPoint> help_checkTwoLineConnection(const std::shared_ptr<EELine>& a, const std::shared_ptr<EELine>& b);
 
 protected:
     cocos2d::Layer* _layer;
@@ -91,7 +129,7 @@ protected:
 
     std::list<std::shared_ptr<EEPoint>> _points;
     std::list<std::shared_ptr<EELine>> _lines;
-    std::vector<std::shared_ptr<EETriangle>> _triangles;
+    std::list<std::shared_ptr<EETriangle>> _triangles;
     void addPoint(const cocos2d::Vec2& rawpos);
     void deletePoint(const cocos2d::Vec2& rawpos);
 
@@ -103,6 +141,11 @@ protected:
     EELinesNode* _linesNode;
     void initLinesThings();
     void refreshLines();
+
+    // 三角形当3条边存在时，自动就出现了，初始一定的色彩，如果不需要此三角形，可以破坏三角形的结构，或者给一个全透的色彩。
+    EETrianglesNode* _trianglesNode;
+    void initTrianglesThings();
+    void refreshTriangles();
 
 
 };

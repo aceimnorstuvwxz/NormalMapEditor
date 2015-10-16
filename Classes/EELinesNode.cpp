@@ -53,8 +53,6 @@ void EELinesNode::prepareShaders()
 
     auto glprogram = GLProgram::createWithByteArrays(vertSource.c_str(), fragSource.c_str());
     glprogram->bindAttribLocation("a_positioin", 0);
-    glprogram->bindAttribLocation("a_edge", 1);
-    glprogram->bindAttribLocation("a_corner", 2);
 
     glprogram->link();
     glprogram->updateUniforms();

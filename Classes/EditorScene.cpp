@@ -22,6 +22,7 @@ bool EditorScene::init()
     this->addChild(_pointLayer);
 
     initLinesThings();
+    initTrianglesThings();
     initKeyboardMouse();
 
 
@@ -41,6 +42,14 @@ void EditorScene::initLinesThings()
     _linesNode->setPosition({0,0});
     _pointLayer->addChild(_linesNode);
     _linesNode->setZOrder(Z_LINES);
+}
+
+void EditorScene::initTrianglesThings()
+{
+    _trianglesNode = EETrianglesNode::create();
+    _trianglesNode->setPosition({0,0});
+    _pointLayer->addChild(_trianglesNode);
+    _trianglesNode->setZOrder(Z_TRIANGLES);
 }
 
 
@@ -242,4 +251,37 @@ void EditorScene::deleteLineWithPoint(const std::shared_ptr<EEPoint>& point)
 void EditorScene::refreshLines()
 {
     _linesNode->configLines(_lines);
+    refreshTriangles();
+}
+
+std::shared_ptr<EEPoint> EditorScene::help_checkTwoLineConnection(const std::shared_ptr<EELine>& a, const std::shared_ptr<EELine>& b)
+{
+    return  a->a == b->a ? a->a :
+    a->a == b->b ? a->a :
+    a->b == b->a ? a->b :
+    a->b == b->b ? a->b : nullptr;
+}
+
+void EditorScene::refreshTriangles()
+{
+    _triangles.clear();
+    for (auto ia = _lines.begin(); ia != _lines.end(); ia++) {
+        auto ib = ia;ib++; if (ib == _lines.end()) continue;
+        for (; ib != _lines.end(); ib++) {
+            auto ic = ib; ic++; if(ic == _lines.end()) continue;
+            for (; ic != _lines.end(); ic++) {
+                auto la = help_checkTwoLineConnection(*ia, *ib);
+                auto lb = help_checkTwoLineConnection(*ia, *ic);
+                auto lc = help_checkTwoLineConnection(*ib, *ic);
+                if (la && lb && lc){
+                    auto t = std::make_shared<EETriangle>();
+                    t->a = la;
+                    t->b = lb;
+                    t->c = lc;
+                    _triangles.push_back(t);
+                }
+            }
+        }
+    }
+    _trianglesNode->configTriangles(_triangles);
 }
