@@ -4,6 +4,8 @@
 #define EditorScene_hpp
 
 #include "TRBaseScene.h"
+#include "DDConfig.h"
+#include "BattleField.h"
 
 
 struct EEPoint
@@ -76,6 +78,7 @@ public:
     void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)override;
     void configTriangles(const std::list<std::shared_ptr<EETriangle>>& triangles);
     void configShowState(int state) { _showState = state;}
+    void updateLights(LightNode* lights);
 
 protected:
     int _showState = SS_PREVIEW;
@@ -89,6 +92,10 @@ protected:
     EETrianglesNodeVertexFormat _vertexData[NUM_MAX_VERTEXS];
     int _count;
     bool _dirty = true;
+
+
+    cocos2d::Vec4 _lights[DDConfig::NUM_LIGHT];// TODO 这个数据变成全局的，而不是对每个node的，因为都一样!
+    cocos2d::Vec4 _lightsColor[DDConfig::NUM_LIGHT];//光源颜色
 };
 
 
@@ -100,6 +107,7 @@ public:
         Z_TRIANGLES,
         Z_LINES,
         Z_POINTS,
+        Z_LIGHT,
     };
     virtual bool init() override;
     CREATE_FUNC(EditorScene);
@@ -146,6 +154,14 @@ protected:
     EETrianglesNode* _trianglesNode;
     void initTrianglesThings();
     void refreshTriangles();
+
+    constexpr static int NUM_TEST_LIGHT = 1;
+    cocos2d::Sprite* _testLightIcon[NUM_TEST_LIGHT];
+    LightNode* _testLight[NUM_TEST_LIGHT];
+    int _testMovingIndex = 0;
+    LightNodeManager _lightManager;
+    void addTestLights();
+
 
 
 };

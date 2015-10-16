@@ -4,6 +4,7 @@
 #include "TRLocale.h"
 
 USING_NS_CC;
+
 bool EditorScene::init()
 {
     assert(TRBaseScene::init());
@@ -18,11 +19,11 @@ bool EditorScene::init()
     initLinesThings();
     initTrianglesThings();
     initKeyboardMouse();
-
+    _lightManager.init();
+    addTestLights();
 
     return true;
 }
-
 
 cocos2d::Vec2 EditorScene::help_touchPoint2editPosition(const cocos2d::Vec2& touchpoint)
 {
@@ -45,7 +46,6 @@ void EditorScene::initTrianglesThings()
     _pointLayer->addChild(_trianglesNode);
     _trianglesNode->setZOrder(Z_TRIANGLES);
 }
-
 
 void EditorScene::initKeyboardMouse()
 {
@@ -278,4 +278,55 @@ void EditorScene::refreshTriangles()
         }
     }
     _trianglesNode->configTriangles(_triangles);
+}
+
+void EditorScene::addTestLights()
+{
+    for (int i = 0; i < NUM_TEST_LIGHT; i++) {
+        auto sp = Sprite::create("images/test_light.png");
+        sp->setScale(DDConfig::battleCubeWidth()/sp->getContentSize().width);
+        sp->setPosition({0,0});
+        sp->setZOrder(Z_LIGHT);
+        sp->setScale(0.25);
+        _pointLayer->addChild(sp);
+
+        _testLightIcon[i] = sp;
+        _testLight[i] = _lightManager.brrow();
+        _testLight[i]->quality = 8;
+        _testLight[i]->height = 2+i;
+
+    }
+
+    auto listener = EventListenerTouchOneByOne::create();
+
+    listener->onTouchBegan = [this](Touch* touch, Event* event){
+        bool res = false;
+        for (int i = 0; i < NUM_TEST_LIGHT; i++) {
+            auto point = touch->getLocation();
+            auto size = _testLightIcon[i]->getContentSize();
+            auto pos = _testLightIcon[i]->getParent()->getPosition()+ _testLightIcon[i]->getPosition();
+            Rect rect = {pos.x - 0.5f*size.width, pos.y - 0.5f*size.height, size.width, size.height};
+
+            if (rect.containsPoint(point)) {
+                res = true;
+                _testMovingIndex = i;
+                break;
+            }
+
+        }
+        return res;
+    };
+
+    listener->onTouchMoved = [this](Touch* touch, Event* event){
+        _testLightIcon[_testMovingIndex]->setPosition(_testLightIcon[_testMovingIndex]->getPosition() + touch->getDelta());
+        _testLight[_testMovingIndex]->agentFloatPos = (_testLightIcon[_testMovingIndex]->getPosition());
+    };
+
+    listener->onTouchEnded = [this](Touch* touch, Event* event){
+    };
+
+    listener->onTouchCancelled = [this](Touch* touch, Event* event){
+    };
+
+    _pointLayer->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, _pointLayer);
 }
