@@ -58,12 +58,18 @@ protected:
     cocos2d::Vec2 help_relativePosition2editPosition(const cocos2d::Vec2& relativePosition);
     void initKeyboardMouse();
 
-
     std::list<std::shared_ptr<EEPoint>> _points;
-    std::vector<std::shared_ptr<EELine>> _lines;
+    std::list<std::shared_ptr<EELine>> _lines;
     std::vector<std::shared_ptr<EETriangle>> _triangles;
     void addPoint(const cocos2d::Vec2& rawpos);
     void deletePoint(const cocos2d::Vec2& rawpos);
+
+    std::shared_ptr<EEPoint> _firstSelectedPoint = nullptr;
+    std::shared_ptr<EEPoint> findSelectedPoint(const cocos2d::Vec2& rawpos);
+    void addLine(const cocos2d::Vec2& rawpos);
+    void deleteLine(const cocos2d::Vec2& rawpos);
+    void refreshLines();
+
 
 };
 

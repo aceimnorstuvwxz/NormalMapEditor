@@ -96,6 +96,10 @@ void EditorScene::initKeyboardMouse()
             addPoint(rawpos);
         } else if (_ks_deletePoint) {
             deletePoint(rawpos);
+        } else if (_ks_addLine) {
+            addLine(rawpos);
+        } else if (_ks_deleteLine) {
+            deleteLine(rawpos);
         }
 
         return false;
@@ -125,7 +129,6 @@ cocos2d::Vec2 EditorScene::help_relativePosition2editPosition(const cocos2d::Vec
     return {relativePosition.x * size.width/2, relativePosition.y * size.width/2};
 }
 
-
 void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
 {
     auto pos = help_touchPoint2editPosition(rawpos);
@@ -138,6 +141,19 @@ void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
     point->sprite->setScale(0.1);
     _pointLayer->addChild(point->sprite);
     _points.push_back(point);
+}
+
+std::shared_ptr<EEPoint> EditorScene::findSelectedPoint(const cocos2d::Vec2& rawpos)
+{
+    auto pos = help_touchPoint2editPosition(rawpos);
+
+    for (auto & point : _points) {
+        auto distance = point->sprite->getPosition().distance(pos);
+        if (distance < point->sprite->getContentSize().width * point->sprite->getScale() /2){
+            return point;
+        }
+    }
+    return nullptr;
 }
 
 void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
@@ -153,6 +169,49 @@ void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
             return;
         }
     }
+}
 
+void EditorScene::addLine(const cocos2d::Vec2& rawpos)
+{
+    auto selectedPoint = findSelectedPoint(rawpos);
+    if (selectedPoint) {
+        if (_firstSelectedPoint && _firstSelectedPoint != selectedPoint) {
+            CCLOG("add line");
+            auto line = std::make_shared<EELine>();
+            line->a = _firstSelectedPoint;
+            line->b = selectedPoint;
+            _lines.push_back(line);
+            refreshLines();
+            _firstSelectedPoint = nullptr;
+        } else {
+            _firstSelectedPoint = selectedPoint;
+        }
+    }
+}
+
+void EditorScene::deleteLine(const cocos2d::Vec2& rawpos)
+{
+    auto selectedPoint = findSelectedPoint(rawpos);
+    if (selectedPoint) {
+        if (_firstSelectedPoint && _firstSelectedPoint != selectedPoint) {
+
+            for (auto& line : _lines) {
+                if ((line->a == _firstSelectedPoint && line->b == selectedPoint) || (line->b == _firstSelectedPoint && line->a == selectedPoint)) {
+                    CCLOG("remove line");
+                    _lines.remove(line);
+                    break;
+                }
+            }
+
+            refreshLines();
+            _firstSelectedPoint = nullptr;
+        } else {
+            _firstSelectedPoint = selectedPoint;
+        }
+    }
+}
+
+void EditorScene::refreshLines()
+{
 
 }
