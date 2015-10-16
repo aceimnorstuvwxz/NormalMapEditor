@@ -309,7 +309,7 @@ void EditorScene::addTestLights()
 
     listener->onTouchMoved = [this](Touch* touch, Event* event){
         _testLightIcon->setPosition(_testLightIcon->getPosition() + touch->getDelta());
-        _lightPos = _testLightIcon->getPosition();
+        _trianglesNode->updateLightPos(_testLightIcon->getPosition());
     };
 
     listener->onTouchEnded = [this](Touch* touch, Event* event){
@@ -323,5 +323,4 @@ void EditorScene::addTestLights()
 
 void EditorScene::update(float dt)
 {
-    _trianglesNode->updateLightPos(_lightPos);
 }
