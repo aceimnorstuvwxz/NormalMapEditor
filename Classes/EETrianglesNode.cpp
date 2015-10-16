@@ -61,7 +61,7 @@ void EETrianglesNode::prepareShaders()
     auto glprogram = GLProgram::createWithByteArrays(vertSource.c_str(), fragSource.c_str());
     glprogram->bindAttribLocation("a_positioin", 0);
     glprogram->bindAttribLocation("a_normal", 1);
-    glprogram->bindAttribLocation("a_color", 2);
+    glprogram->bindAttribLocation("a_color2", 2);
 
     glprogram->link();
     glprogram->updateUniforms();
