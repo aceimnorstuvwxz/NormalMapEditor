@@ -21,6 +21,7 @@ bool EditorScene::init()
     _pointLayer->setPosition(genPos({0.5,0.5}));
     this->addChild(_pointLayer);
 
+    initLinesThings();
     initKeyboardMouse();
 
 
@@ -34,6 +35,13 @@ cocos2d::Vec2 EditorScene::help_touchPoint2editPosition(const cocos2d::Vec2& tou
     return {touchpoint.x - size.width/2, touchpoint.y - size.height/2};
 }
 
+void EditorScene::initLinesThings()
+{
+    _linesNode = EELinesNode::create();
+    _linesNode->setPosition({0,0});
+    _pointLayer->addChild(_linesNode);
+    _linesNode->setZOrder(Z_LINES);
+}
 
 
 void EditorScene::initKeyboardMouse()
@@ -164,8 +172,10 @@ void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
         auto distance = point->sprite->getPosition().distance(pos);
         if (distance < point->sprite->getContentSize().width * point->sprite->getScale() /2){
             CCLOG("delete point");
+            deleteLineWithPoint(point);
             _pointLayer->removeChild(point->sprite);
             _points.remove(point);
+            refreshLines();
             return;
         }
     }
@@ -176,6 +186,13 @@ void EditorScene::addLine(const cocos2d::Vec2& rawpos)
     auto selectedPoint = findSelectedPoint(rawpos);
     if (selectedPoint) {
         if (_firstSelectedPoint && _firstSelectedPoint != selectedPoint) {
+
+            for (auto& line : _lines) {
+                if ((line->a == _firstSelectedPoint && line->b == selectedPoint) || (line->b == _firstSelectedPoint && line->a == selectedPoint)) {
+                    _firstSelectedPoint = selectedPoint;
+                    return;
+                }
+            }
             CCLOG("add line");
             auto line = std::make_shared<EELine>();
             line->a = _firstSelectedPoint;
@@ -211,7 +228,18 @@ void EditorScene::deleteLine(const cocos2d::Vec2& rawpos)
     }
 }
 
+void EditorScene::deleteLineWithPoint(const std::shared_ptr<EEPoint>& point)
+{
+    for (auto iter = _lines.begin(); iter != _lines.end(); ) {
+        if ((*iter)->a == point || (*iter)->b == point) {
+            iter = _lines.erase(iter);
+        } else {
+            iter++;
+        }
+    }
+}
+
 void EditorScene::refreshLines()
 {
-
+    _linesNode->configLines(_lines);
 }

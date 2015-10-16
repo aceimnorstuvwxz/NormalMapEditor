@@ -28,16 +28,51 @@ struct EETriangle
     cocos2d::Vec4 color;
 };
 
+struct EELinesNodeVertexFormat
+{
+    cocos2d::Vec2 position;
+};
+
+class EELinesNode:public cocos2d::Node
+{
+public:
+    CREATE_FUNC(EELinesNode);
+    virtual bool init()override;
+    void onDraw(const cocos2d::Mat4 &transform, uint32_t flags);
+    void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)override;
+    void configLines(const std::list<std::shared_ptr<EELine>>& lines);
+
+protected:
+    void prepareVertexData(); //初始化VAO/VBO
+    GLuint _vao; //共享的VAO
+    GLuint _vbo; //共享的VBO
+    void prepareShaders(); //初始化shader program
+    cocos2d::GLProgramState* _programState = nullptr;//共享的PROGRAM
+    cocos2d::CustomCommand _command;
+    constexpr static int NUM_MAX_VERTEXS = 1000;
+    EELinesNodeVertexFormat _vertexData[NUM_MAX_VERTEXS];
+    int _count;
+    bool _dirty = true;
+};
+
 
 class EditorScene:public TRBaseScene
 {
 public:
     enum Z_ORDER
     {
+        Z_LINES,
         Z_POINTS,
     };
     virtual bool init() override;
     CREATE_FUNC(EditorScene);
+
+
+    // touchPoint 是由touch->getLocation返回的。 editPosition是以界面中心为原点的，不过单位与touchPoint一样。
+    static cocos2d::Vec2 help_touchPoint2editPosition(const cocos2d::Vec2& touchpoint);
+    // 而relativePosition是[-1,1]的单位。
+    static cocos2d::Vec2 help_editPosition2relativePosition(const cocos2d::Vec2& editposition);
+    static cocos2d::Vec2 help_relativePosition2editPosition(const cocos2d::Vec2& relativePosition);
 
 protected:
     cocos2d::Layer* _layer;
@@ -51,11 +86,7 @@ protected:
     bool _ks_deletePoint = false;
     bool _ks_addLine = false;
     bool _ks_deleteLine = false;
-    // touchPoint 是由touch->getLocation返回的。 editPosition是以界面中心为原点的，不过单位与touchPoint一样。
-    cocos2d::Vec2 help_touchPoint2editPosition(const cocos2d::Vec2& touchpoint);
-    // 而relativePosition是[-1,1]的单位。
-    cocos2d::Vec2 help_editPosition2relativePosition(const cocos2d::Vec2& editposition);
-    cocos2d::Vec2 help_relativePosition2editPosition(const cocos2d::Vec2& relativePosition);
+
     void initKeyboardMouse();
 
     std::list<std::shared_ptr<EEPoint>> _points;
@@ -68,6 +99,9 @@ protected:
     std::shared_ptr<EEPoint> findSelectedPoint(const cocos2d::Vec2& rawpos);
     void addLine(const cocos2d::Vec2& rawpos);
     void deleteLine(const cocos2d::Vec2& rawpos);
+    void deleteLineWithPoint(const std::shared_ptr<EEPoint>& point);
+    EELinesNode* _linesNode;
+    void initLinesThings();
     void refreshLines();
 
 

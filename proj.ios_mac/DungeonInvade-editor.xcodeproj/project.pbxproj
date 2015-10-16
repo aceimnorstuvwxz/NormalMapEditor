@@ -145,7 +145,8 @@
 		B591720B1BCE88040070CD81 /* BattleField-distancebox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B591720A1BCE88040070CD81 /* BattleField-distancebox.cpp */; settings = {ASSET_TAGS = (); }; };
 		B59492A51BD0E533006C2E7B /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492A31BD0E533006C2E7B /* EditorScene.cpp */; settings = {ASSET_TAGS = (); }; };
 		B59492A61BD0E5F0006C2E7B /* EditorScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492A31BD0E533006C2E7B /* EditorScene.cpp */; };
-		B59492A71BD0E5F0006C2E7B /* EditorScene.h in Sources */ = {isa = PBXBuildFile; fileRef = B59492A41BD0E533006C2E7B /* EditorScene.h */; };
+		B59492AC1BD126E0006C2E7B /* EELinesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */; settings = {ASSET_TAGS = (); }; };
+		B59492AD1BD126E0006C2E7B /* EELinesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D01BC25A3D002FDE82 /* BattleField-low.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1CE1BC25A3D002FDE82 /* BattleField-low.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D31BC282B1002FDE82 /* BattleField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1D21BC282B1002FDE82 /* BattleField.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D51BC28908002FDE82 /* BattleField-middle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1D41BC28908002FDE82 /* BattleField-middle.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -294,7 +295,8 @@
 		B59172081BCE62B90070CD81 /* BattleField-redgreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "BattleField-redgreen.cpp"; sourceTree = "<group>"; };
 		B591720A1BCE88040070CD81 /* BattleField-distancebox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "BattleField-distancebox.cpp"; sourceTree = "<group>"; };
 		B59492A31BD0E533006C2E7B /* EditorScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EditorScene.cpp; sourceTree = "<group>"; };
-		B59492A41BD0E533006C2E7B /* EditorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorScene.h; sourceTree = "<group>"; };
+		B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EELinesNode.cpp; sourceTree = "<group>"; };
+		B59492AF1BD129D9006C2E7B /* EditorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorScene.h; sourceTree = "<group>"; };
 		B5F3A1CE1BC25A3D002FDE82 /* BattleField-low.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "BattleField-low.cpp"; sourceTree = "<group>"; };
 		B5F3A1CF1BC25A3D002FDE82 /* BattleField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleField.h; sourceTree = "<group>"; };
 		B5F3A1D21BC282B1002FDE82 /* BattleField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleField.cpp; sourceTree = "<group>"; };
@@ -590,8 +592,9 @@
 		B59492A21BD0E4EA006C2E7B /* editor */ = {
 			isa = PBXGroup;
 			children = (
+				B59492AF1BD129D9006C2E7B /* EditorScene.h */,
 				B59492A31BD0E533006C2E7B /* EditorScene.cpp */,
-				B59492A41BD0E533006C2E7B /* EditorScene.h */,
+				B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */,
 			);
 			name = editor;
 			sourceTree = "<group>";
@@ -820,6 +823,7 @@
 				B591720B1BCE88040070CD81 /* BattleField-distancebox.cpp in Sources */,
 				B539EAA01BBD9BB400311CDC /* DDMapData.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				B59492AC1BD126E0006C2E7B /* EELinesNode.cpp in Sources */,
 				B51A33DB1BBD8CEA00024A34 /* McdLayer.cpp in Sources */,
 				B59492A51BD0E533006C2E7B /* EditorScene.cpp in Sources */,
 				B5F3A1D01BC25A3D002FDE82 /* BattleField-low.cpp in Sources */,
@@ -832,8 +836,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B59492A61BD0E5F0006C2E7B /* EditorScene.cpp in Sources */,
-				B59492A71BD0E5F0006C2E7B /* EditorScene.h in Sources */,
 				B52159C41BCFED200022EC33 /* EditState.cpp in Sources */,
+				B59492AD1BD126E0006C2E7B /* EELinesNode.cpp in Sources */,
 				B52159C51BCFED200022EC33 /* EditState.h in Sources */,
 				B52159C61BCFED200022EC33 /* format.cpp in Sources */,
 				B52159C71BCFED200022EC33 /* format.h in Sources */,
