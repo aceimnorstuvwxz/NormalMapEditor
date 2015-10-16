@@ -78,7 +78,7 @@ public:
     void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)override;
     void configTriangles(const std::list<std::shared_ptr<EETriangle>>& triangles);
     void configShowState(int state) { _showState = state;}
-    void updateLights(LightNode* lights);
+    void updateLightPos(cocos2d::Vec2 pos);
 
 protected:
     int _showState = SS_PREVIEW;
@@ -94,8 +94,7 @@ protected:
     bool _dirty = true;
 
 
-    cocos2d::Vec4 _lights[DDConfig::NUM_LIGHT];// TODO 这个数据变成全局的，而不是对每个node的，因为都一样!
-    cocos2d::Vec4 _lightsColor[DDConfig::NUM_LIGHT];//光源颜色
+    cocos2d::Vec2 _lightPos;
 };
 
 
@@ -155,13 +154,11 @@ protected:
     void initTrianglesThings();
     void refreshTriangles();
 
-    constexpr static int NUM_TEST_LIGHT = 1;
-    cocos2d::Sprite* _testLightIcon[NUM_TEST_LIGHT];
-    LightNode* _testLight[NUM_TEST_LIGHT];
-    int _testMovingIndex = 0;
-    LightNodeManager _lightManager;
+    cocos2d::Sprite* _testLightIcon;
+    cocos2d::Vec2 _lightPos;
     void addTestLights();
 
+    void update(float dt) override;
 
 
 };

@@ -19,7 +19,6 @@ bool EditorScene::init()
     initLinesThings();
     initTrianglesThings();
     initKeyboardMouse();
-    _lightManager.init();
     addTestLights();
 
     return true;
@@ -282,7 +281,6 @@ void EditorScene::refreshTriangles()
 
 void EditorScene::addTestLights()
 {
-    for (int i = 0; i < NUM_TEST_LIGHT; i++) {
         auto sp = Sprite::create("images/test_light.png");
         sp->setScale(DDConfig::battleCubeWidth()/sp->getContentSize().width);
         sp->setPosition({0,0});
@@ -290,36 +288,28 @@ void EditorScene::addTestLights()
         sp->setScale(0.25);
         _pointLayer->addChild(sp);
 
-        _testLightIcon[i] = sp;
-        _testLight[i] = _lightManager.brrow();
-        _testLight[i]->quality = 8;
-        _testLight[i]->height = 2+i;
+        _testLightIcon = sp;
 
-    }
 
     auto listener = EventListenerTouchOneByOne::create();
 
     listener->onTouchBegan = [this](Touch* touch, Event* event){
         bool res = false;
-        for (int i = 0; i < NUM_TEST_LIGHT; i++) {
             auto point = touch->getLocation();
-            auto size = _testLightIcon[i]->getContentSize();
-            auto pos = _testLightIcon[i]->getParent()->getPosition()+ _testLightIcon[i]->getPosition();
+            auto size = _testLightIcon->getContentSize();
+            auto pos = _testLightIcon->getParent()->getPosition()+ _testLightIcon->getPosition();
             Rect rect = {pos.x - 0.5f*size.width, pos.y - 0.5f*size.height, size.width, size.height};
 
             if (rect.containsPoint(point)) {
                 res = true;
-                _testMovingIndex = i;
-                break;
             }
 
-        }
         return res;
     };
 
     listener->onTouchMoved = [this](Touch* touch, Event* event){
-        _testLightIcon[_testMovingIndex]->setPosition(_testLightIcon[_testMovingIndex]->getPosition() + touch->getDelta());
-        _testLight[_testMovingIndex]->agentFloatPos = (_testLightIcon[_testMovingIndex]->getPosition());
+        _testLightIcon->setPosition(_testLightIcon->getPosition() + touch->getDelta());
+        _lightPos = _testLightIcon->getPosition();
     };
 
     listener->onTouchEnded = [this](Touch* touch, Event* event){
@@ -329,4 +319,9 @@ void EditorScene::addTestLights()
     };
 
     _pointLayer->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, _pointLayer);
+}
+
+void EditorScene::update(float dt)
+{
+    _trianglesNode->updateLightPos(_lightPos);
 }

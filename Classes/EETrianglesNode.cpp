@@ -84,6 +84,8 @@ void EETrianglesNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
     glProgram->use();
     auto loc = glProgram->getUniformLocation("u_show_state");
     glProgram->setUniformLocationWith1i(loc, _showState);
+    loc = glProgram->getUniformLocation("u_light_position");
+    glProgram->setUniformLocationWith2fv(loc, &(_lightPos.x), 1);
 
     glProgram->setUniformsForBuiltins(transform);
 
@@ -136,4 +138,9 @@ void EETrianglesNode::configTriangles(const std::list<std::shared_ptr<EETriangle
         _vertexData[_count].color = {0.5,0.5,0.5,1.0};
         _count++;
     }
+}
+
+void EETrianglesNode::updateLightPos(cocos2d::Vec2 pos)
+{
+    _lightPos = pos;
 }

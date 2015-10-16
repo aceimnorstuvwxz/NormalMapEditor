@@ -192,7 +192,6 @@ void BattleHighNode::configBuildingAnimation(const std::string& buildingFile)
 void BattleHighNode::configBuildingNormalMap(const std::string& buildingNormalMap)
 {
     _textureBuildingNormalMap = Director::getInstance()->getTextureCache()->addImage(buildingNormalMap);
-
 }
 void BattleHighNode::configBuildingAnimationIndex(int index)
 {
