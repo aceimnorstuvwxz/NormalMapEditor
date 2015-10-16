@@ -210,6 +210,7 @@ void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
             deleteLineWithPoint(point);
             _pointLayer->removeChild(point->sprite);
             _points.remove(point);
+            _selectedPoints.remove(point);
             refreshLines();
             return;
         }
