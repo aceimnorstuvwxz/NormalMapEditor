@@ -162,6 +162,8 @@ protected:
     std::list<std::shared_ptr<EEPoint>> _selectedPoints;
     void clearSelection();
 
+    void moveUp(bool isup);
+
 };
 
 #endif /* EditorScene_hpp */

@@ -72,7 +72,12 @@ void EditorScene::initKeyboardMouse()
             case EventKeyboard::KeyCode::KEY_D:
                 clearSelection();
                 break;
-
+            case EventKeyboard::KeyCode::KEY_B:
+                moveUp(false);
+                break;
+            case EventKeyboard::KeyCode::KEY_V:
+                moveUp(false);
+                break;
 
             default:
                 break;
@@ -369,4 +374,13 @@ void EditorScene::clearSelection()
         point->sprite->setTexture("images/point_normal.png");
     }
     _selectedPoints.clear();
+}
+
+void EditorScene::moveUp(bool isup)
+{
+    const float move_step = 0.05;
+    for (auto point : _selectedPoints) {
+        point->height += isup ? move_step : -move_step;
+    }
+    refreshTriangles();
 }
