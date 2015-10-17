@@ -126,8 +126,6 @@ protected:
     cocos2d::Layer* _layer;
     cocos2d::Layer* _pointLayer;
     cocos2d::Layer* _presentingLayer;
-    int pidIndex = 0;
-    int nextPid(){return pidIndex++;}
 
     // key state
     bool _ks_addPoint = false;
@@ -137,10 +135,6 @@ protected:
     bool _ks_digging = false;
 
     void initKeyboardMouse();
-    std::unordered_map<int, std::shared_ptr<EEPoint>> _points;
-    std::unordered_map<int, cocos2d::Vec4> _triangleColorMap;
-
-    std::list<std::shared_ptr<EETriangle>> _triangles;
     std::shared_ptr<EEPoint> findSelectedPoint(const cocos2d::Vec2& rawpos);
     void addPoint(const cocos2d::Vec2& rawpos);
     void selectPoint(const cocos2d::Vec2 rawpos, bool ismulti);
@@ -180,6 +174,27 @@ protected:
     std::shared_ptr<EETriangle> findTriangle(cocos2d::Vec2 rawpos);
 
     cocos2d::Sprite* _rulerBg;
+
+
+    // data
+    constexpr static int NUM_FRAME = 64;
+    constexpr static float DOT_SCALE = 0.08;
+
+    std::unordered_map<int, std::shared_ptr<EEPoint>> _points[NUM_FRAME];
+    std::unordered_map<int, cocos2d::Vec4> _triangleColorMap[NUM_FRAME];
+    std::list<std::shared_ptr<EETriangle>> _triangles[NUM_FRAME];
+
+    cocos2d::Label* _lbFrameNum;
+    void switchAllDots(bool isshow);
+    void refreshFrameNum();
+    int _frameIndex = 0;
+    void nextFrame();
+    void prevFrame();
+    int _copySrcIndex = 0;
+    void plastFrame();
+
+    int pidIndex[NUM_FRAME] = {0};
+    int nextPid(){return (pidIndex[_frameIndex])++;}
 };
 
 #endif /* EditorScene_hpp */

@@ -22,11 +22,6 @@ bool EditorScene::init()
     _pointLayer->setPosition({512,256+512});
     this->addChild(_pointLayer);
 
-    _rulerBg = Sprite::create("images/ruler.png");
-    _rulerBg->setOpacity(128);
-    _presentingLayer->addChild(_rulerBg);
-
-
 
     _diggColorPanel = Sprite::create("images/dfdg.png");
     _diggColorPanel->setPosition({512,256/2});
@@ -38,8 +33,18 @@ bool EditorScene::init()
 
     initLinesThings();
     initTrianglesThings();
+
+    _rulerBg = Sprite::create("images/ruler.png");
+    _rulerBg->setOpacity(128);
+    _presentingLayer->addChild(_rulerBg);
+
     initKeyboardMouse();
     addTestLights();
+
+    _lbFrameNum = Label::createWithTTF("F", "fonts/fz.ttf", 30);
+    _lbFrameNum->setPosition(genPos({0.9,0.9}));
+    _layer->addChild(_lbFrameNum);
+
 
     addCommonBtn({0.1,0.1}, "test tri", [this](){
 
@@ -104,14 +109,26 @@ void EditorScene::initKeyboardMouse()
             case EventKeyboard::KeyCode::KEY_G:
                 _ks_digging = true;
                 break;
-            case EventKeyboard::KeyCode::KEY_P:
+            case EventKeyboard::KeyCode::KEY_X:
                 _pointLayer->setVisible(!_pointLayer->isVisible());
                 _rulerBg->setVisible(!_rulerBg->isVisible());
                 break;
-            case EventKeyboard::KeyCode::KEY_Y:
-                this->delaunay();
-                this->refreshLines();
-                this->refreshTriangles();
+
+            case EventKeyboard::KeyCode::KEY_C:
+                _copySrcIndex = _frameIndex;
+                break;
+            case EventKeyboard::KeyCode::KEY_V:
+                plastFrame();
+                break;
+
+            case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+            case EventKeyboard::KeyCode::KEY_Q:
+                prevFrame();
+                break;
+
+            case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+            case EventKeyboard::KeyCode::KEY_E:
+                nextFrame();
                 break;
 
             default:
@@ -220,10 +237,10 @@ void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
     point->sprite = Sprite::create("images/point_normal.png");
     point->sprite->setPosition(help_relativePosition2editPosition(point->position));
     point->sprite->setZOrder(Z_POINTS);
-    point->sprite->setScale(0.05);
+    point->sprite->setScale(DOT_SCALE);
     _pointLayer->addChild(point->sprite);
     point->pid = nextPid();
-    _points[point->pid] = point;
+    _points[_frameIndex][point->pid] = point;
     delaunay();
     refreshLines();
     refreshTriangles();
@@ -260,7 +277,7 @@ std::shared_ptr<EEPoint> EditorScene::findSelectedPoint(const cocos2d::Vec2& raw
 {
     auto pos = help_touchPoint2editPosition(rawpos);
 
-    for (auto & pair : _points) {
+    for (auto & pair : _points[_frameIndex]) {
         auto distance = pair.second->sprite->getPosition().distance(pos);
         if (distance < pair.second->sprite->getContentSize().width * pair.second->sprite->getScale() /2){
             return pair.second;
@@ -275,12 +292,12 @@ void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
 
     auto pos = help_touchPoint2editPosition(rawpos);
 
-    for (auto & pair : _points) {
+    for (auto & pair : _points[_frameIndex]) {
         auto distance = pair.second->sprite->getPosition().distance(pos);
         if (distance < pair.second->sprite->getContentSize().width * pair.second->sprite->getScale() /2){
             CCLOG("delete point");
             _pointLayer->removeChild(pair.second->sprite);
-            _points.erase(pair.first);
+            _points[_frameIndex].erase(pair.first);
             _selectedPoints.remove(pair.second);
 
             delaunay();
@@ -294,20 +311,20 @@ void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
 
 void EditorScene::refreshLines()
 {
-    _linesNode->configLines(_triangles);
+    _linesNode->configLines(_triangles[_frameIndex]);
 }
 
 void EditorScene::refreshTriangles()
 {
     // refill color
-    for (auto tri : _triangles) {
+    for (auto tri : _triangles[_frameIndex]) {
         int key = tri->calcKey();
-        if (_triangleColorMap.count(key) == 0) {
-            _triangleColorMap[key] = Vec4{0.5,0.5,0.5, 1.0};
+        if (_triangleColorMap[_frameIndex].count(key) == 0) {
+            _triangleColorMap[_frameIndex][key] = Vec4{0.5,0.5,0.5, 1.0};
         }
-        tri->color = _triangleColorMap[key];
+        tri->color = _triangleColorMap[_frameIndex][key];
     }
-    _trianglesNode->configTriangles(_triangles);
+    _trianglesNode->configTriangles(_triangles[_frameIndex]);
 }
 
 void EditorScene::addTestLights()
@@ -317,7 +334,7 @@ void EditorScene::addTestLights()
         sp->setPosition({0,0});
         sp->setZOrder(Z_LIGHT);
         sp->setScale(0.25);
-        _pointLayer->addChild(sp);
+        _presentingLayer->addChild(sp);
 
         _testLightIcon = sp;
 
@@ -389,12 +406,12 @@ void  EditorScene::delaunay()
      unsigned int*	tris;
      } tri_delaunay2d_t;
      */
-    if (_points.size() < 3) {
+    if (_points[_frameIndex].size() < 3) {
         return;
     }
     CCLOG("delaunay");
     _delPointsCount = 0;
-    for (auto pair : _points) {
+    for (auto pair : _points[_frameIndex]) {
         _delPoints[_delPointsCount].x = pair.second->position.x;
         _delPoints[_delPointsCount].y = pair.second->position.y;
         _delPoints[_delPointsCount].pid = pair.first;
@@ -405,13 +422,13 @@ void  EditorScene::delaunay()
     auto res_tri = tri_delaunay2d_from(res_poly);
 
 
-    _triangles.clear();
+    _triangles[_frameIndex].clear();
     for (int i = 0; i < res_tri->num_triangles; i++) {
         auto tri = std::make_shared<EETriangle>();
-        tri->a = _points[res_tri->points[res_tri->tris[i*3]].pid];
-        tri->b = _points[res_tri->points[res_tri->tris[i*3+1]].pid];
-        tri->c = _points[res_tri->points[res_tri->tris[i*3+2]].pid];
-        _triangles.push_back(tri);
+        tri->a = _points[_frameIndex][res_tri->points[res_tri->tris[i*3]].pid];
+        tri->b = _points[_frameIndex][res_tri->points[res_tri->tris[i*3+1]].pid];
+        tri->c = _points[_frameIndex][res_tri->points[res_tri->tris[i*3+2]].pid];
+        _triangles[_frameIndex].push_back(tri);
     }
 
     delaunay2d_release(res_poly);
@@ -435,7 +452,7 @@ void EditorScene::diggColor(cocos2d::Vec2 rawpos)
     } else if (rawpos.y > 256) {
         auto tri = findTriangle(rawpos);
         if (tri) {
-            _diggingColor = _triangleColorMap[tri->calcKey()];
+            _diggingColor = _triangleColorMap[_frameIndex][tri->calcKey()];
         }
     }
     refreshDiggColor();
@@ -452,7 +469,7 @@ void EditorScene::shadingTriangle(cocos2d::Vec2 rawpos)
     clearSelection();
     auto tri = findTriangle(rawpos);
     if (tri) {
-        _triangleColorMap[tri->calcKey()] = _diggingColor;
+        _triangleColorMap[_frameIndex][tri->calcKey()] = _diggingColor;
         tri->color = _diggingColor;
         refreshTriangles();
     }
@@ -463,7 +480,7 @@ std::shared_ptr<EETriangle> EditorScene::findTriangle(cocos2d::Vec2 rawpos)
     float tmpOut;
     auto ori = help_touchPoint2editPosition(rawpos);
     ori = help_editPosition2relativePosition(ori);
-    for (auto tri : _triangles) {
+    for (auto tri : _triangles[_frameIndex]) {
 
         if (triangle_intersection(tri->a->pos3d(),  // Triangle vertices
                                   tri->b->pos3d(),
@@ -476,4 +493,73 @@ std::shared_ptr<EETriangle> EditorScene::findTriangle(cocos2d::Vec2 rawpos)
         }
     }
     return nullptr;
+}
+
+void EditorScene::nextFrame()
+{
+    switchAllDots(false);
+    _frameIndex = std::min(NUM_FRAME-1, _frameIndex+1);
+    refreshLines();
+    refreshTriangles();
+    refreshFrameNum();
+    switchAllDots(true);
+}
+
+void EditorScene::prevFrame()
+{
+    switchAllDots(false);
+    _frameIndex = std::max(0, _frameIndex-1);
+    refreshLines();
+    refreshTriangles();
+    refreshFrameNum();
+    switchAllDots(true);
+}
+
+void EditorScene::refreshFrameNum()
+{
+    _lbFrameNum->setString(fmt::sprintf("%d", _frameIndex));
+}
+
+void EditorScene::switchAllDots(bool isshow)
+{
+    for (auto pair: _points[_frameIndex]) {
+        pair.second->sprite->setVisible(isshow);
+    }
+}
+
+void EditorScene::plastFrame()
+{
+    if (_copySrcIndex == _frameIndex) {
+        return;
+    }
+
+    // clear current
+    for ( auto pair :_points[_frameIndex] ){
+        _pointLayer->removeChild(pair.second->sprite);
+    }
+    _points[_frameIndex].clear();
+    _triangleColorMap[_frameIndex].clear();
+    _triangles[_frameIndex].clear();
+
+    // copy
+    for (auto pair : _points[_copySrcIndex]) {
+        auto point = std::make_shared<EEPoint>();
+        point->pid = pair.second->pid;
+        point->height = pair.second->height;
+        point->position = pair.second->position;
+        point->sprite = Sprite::create("images/point_normal.png");
+        point->sprite->setPosition(help_relativePosition2editPosition(point->position));
+        point->sprite->setZOrder(Z_POINTS);
+        point->sprite->setScale(DOT_SCALE);
+        _pointLayer->addChild(point->sprite);
+        _points[_frameIndex][point->pid] = point;
+    }
+
+    for (auto pair : _triangleColorMap[_copySrcIndex]) {
+        _triangleColorMap[_frameIndex][pair.first] = pair.second;
+    }
+
+    this->delaunay();
+    refreshLines();
+    refreshTriangles();
 }
