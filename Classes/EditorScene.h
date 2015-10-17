@@ -125,6 +125,7 @@ public:
 protected:
     cocos2d::Layer* _layer;
     cocos2d::Layer* _pointLayer;
+    cocos2d::Layer* _presentingLayer;
     int pidIndex = 0;
     int nextPid(){return pidIndex++;}
 
@@ -142,7 +143,7 @@ protected:
     std::list<std::shared_ptr<EETriangle>> _triangles;
     std::shared_ptr<EEPoint> findSelectedPoint(const cocos2d::Vec2& rawpos);
     void addPoint(const cocos2d::Vec2& rawpos);
-    void selectPoint(const cocos2d::Vec2 rawpos);
+    void selectPoint(const cocos2d::Vec2 rawpos, bool ismulti);
     void deletePoint(const cocos2d::Vec2& rawpos);
 
     EELinesNode* _linesNode;
@@ -177,7 +178,6 @@ protected:
     void refreshDiggColor();
     void shadingTriangle(cocos2d::Vec2 rawpos);
     std::shared_ptr<EETriangle> findTriangle(cocos2d::Vec2 rawpos);
-
 
 };
 

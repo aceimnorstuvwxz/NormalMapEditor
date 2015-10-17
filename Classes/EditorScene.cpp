@@ -14,9 +14,14 @@ bool EditorScene::init()
     _layer = Layer::create();
     this->addChild(_layer);
 
+    _presentingLayer = Layer::create();
+    _presentingLayer->setPosition({512,256+512});
+    this->addChild(_presentingLayer);
+    
     _pointLayer = Layer::create();
     _pointLayer->setPosition({512,256+512});
     this->addChild(_pointLayer);
+
 
 
     _diggColorPanel = Sprite::create("images/dfdg.png");
@@ -59,7 +64,7 @@ void EditorScene::initTrianglesThings()
 {
     _trianglesNode = EETrianglesNode::create();
     _trianglesNode->setPosition({0,0});
-    _pointLayer->addChild(_trianglesNode);
+    _presentingLayer->addChild(_trianglesNode);
     _trianglesNode->setZOrder(Z_TRIANGLES);
 }
 
@@ -94,6 +99,14 @@ void EditorScene::initKeyboardMouse()
                 break;
             case EventKeyboard::KeyCode::KEY_G:
                 _ks_digging = true;
+                break;
+            case EventKeyboard::KeyCode::KEY_P:
+                _pointLayer->setVisible(!_pointLayer->isVisible());
+                break;
+            case EventKeyboard::KeyCode::KEY_Y:
+                this->delaunay();
+                this->refreshLines();
+                this->refreshTriangles();
                 break;
 
             default:
@@ -144,11 +157,13 @@ void EditorScene::initKeyboardMouse()
             } else if (_ks_deletePoint) {
                 deletePoint(rawpos);
             } else if (_ks_selection) {
-                selectPoint(rawpos);
+                selectPoint(rawpos, true);
             } else if (_ks_shading) {
                 shadingTriangle(rawpos);
             } else if (_ks_digging) {
                 diggColor(rawpos);
+            } else {
+                selectPoint(rawpos, false);
             }
         }
 
@@ -157,11 +172,12 @@ void EditorScene::initKeyboardMouse()
 
     listener->onTouchMoved = [this](Touch* touch, Event* event){
 
-        auto move = touch->getDelta() * 0.25;
+        auto move = touch->getDelta() ;//* 0.25;
         for (auto point : _selectedPoints) {
             point->sprite->setPosition(point->sprite->getPosition() + move);
             point->position = help_editPosition2relativePosition(point->sprite->getPosition());
         }
+        this->delaunay();
         this->refreshLines();
         this->refreshTriangles();
 
@@ -190,6 +206,8 @@ cocos2d::Vec2 EditorScene::help_relativePosition2editPosition(const cocos2d::Vec
 
 void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
 {
+    clearSelection();
+
     auto pos = help_touchPoint2editPosition(rawpos);
     auto point = std::make_shared<EEPoint>();
     point->position = help_editPosition2relativePosition(pos);
@@ -206,10 +224,16 @@ void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
     refreshTriangles();
 }
 
-void EditorScene:: selectPoint(const cocos2d::Vec2 rawpos)
+void EditorScene:: selectPoint(const cocos2d::Vec2 rawpos, bool multi)
 {
     auto point = findSelectedPoint(rawpos);
     if (point) {
+        if (!multi) {
+            for (auto p : _selectedPoints) {
+                p->sprite->setTexture("images/point_normal.png");
+            }
+            _selectedPoints.clear();
+        }
         point->sprite->setTexture("images/point_selected.png");
         bool needToUnselect = false;
         for (auto p : _selectedPoints) {
@@ -242,6 +266,8 @@ std::shared_ptr<EEPoint> EditorScene::findSelectedPoint(const cocos2d::Vec2& raw
 
 void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
 {
+    clearSelection();
+
     auto pos = help_touchPoint2editPosition(rawpos);
 
     for (auto & pair : _points) {
@@ -308,8 +334,9 @@ void EditorScene::addTestLights()
     };
 
     listener->onTouchMoved = [this](Touch* touch, Event* event){
+        this->clearSelection();
         _testLightIcon->setPosition(_testLightIcon->getPosition() + touch->getDelta());
-        _trianglesNode->updateLightPos(_testLightIcon->getPosition());
+        _trianglesNode->updateLightPos(_testLightIcon->getPosition()*0.25);
     };
 
     listener->onTouchEnded = [this](Touch* touch, Event* event){
@@ -390,6 +417,7 @@ void  EditorScene::delaunay()
 
 void EditorScene::diggColor(cocos2d::Vec2 rawpos)
 {
+    clearSelection();
     float radio = 1.0*rawpos.x/1024.0;
     if (rawpos.y < 44) {
         _diggingColor.w = radio;
@@ -416,6 +444,7 @@ void EditorScene::refreshDiggColor()
 
 void EditorScene::shadingTriangle(cocos2d::Vec2 rawpos)
 {
+    clearSelection();
     auto tri = findTriangle(rawpos);
     if (tri) {
         _triangleColorMap[tri->calcKey()] = _diggingColor;
