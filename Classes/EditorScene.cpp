@@ -130,6 +130,7 @@ void EditorScene::initKeyboardMouse()
             point->position = help_editPosition2relativePosition(point->sprite->getPosition());
         }
         this->refreshLines();
+        this->refreshTriangles();
 
     };
 
