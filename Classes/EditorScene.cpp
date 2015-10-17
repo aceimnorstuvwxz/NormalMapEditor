@@ -45,12 +45,13 @@ bool EditorScene::init()
     _lbFrameNum->setPosition(genPos({0.9,0.9}));
     _layer->addChild(_lbFrameNum);
 
-
-    addCommonBtn({0.1,0.1}, "test tri", [this](){
-
-        delaunay();
-
+    addCommonBtn({0.1,0.95}, "save", [this](){
+        save();
     });
+
+    load();
+    refreshLines();
+    refreshTriangles();
 
     return true;
 }
@@ -542,6 +543,7 @@ void EditorScene::plastFrame()
     _triangles[_frameIndex].clear();
 
     // copy
+    _pidIndex[_frameIndex] = _pidIndex[_copySrcIndex];
     for (auto pair : _points[_copySrcIndex]) {
         auto point = std::make_shared<EEPoint>();
         point->pid = pair.second->pid;

@@ -53,6 +53,8 @@
 		B507EFFB1BD2D4780011271A /* WelcomeScene.h in Sources */ = {isa = PBXBuildFile; fileRef = B507EFF81BD2D4070011271A /* WelcomeScene.h */; };
 		B507EFFD1BD2D56E0011271A /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = B507EFFC1BD2D56E0011271A /* message.json */; settings = {ASSET_TAGS = (); }; };
 		B507EFFE1BD2D58C0011271A /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = B507EFFC1BD2D56E0011271A /* message.json */; };
+		B507F0001BD2D8900011271A /* EditorScene-saveload.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B507EFFF1BD2D8900011271A /* EditorScene-saveload.cpp */; settings = {ASSET_TAGS = (); }; };
+		B507F0011BD2DDBF0011271A /* EditorScene-saveload.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B507EFFF1BD2D8900011271A /* EditorScene-saveload.cpp */; };
 		B51A33BF1BBD8BBE00024A34 /* 3d in Resources */ = {isa = PBXBuildFile; fileRef = B51A33B71BBD8BBE00024A34 /* 3d */; settings = {ASSET_TAGS = (); }; };
 		B51A33C21BBD8BBE00024A34 /* ios_ids.plist in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BA1BBD8BBE00024A34 /* ios_ids.plist */; settings = {ASSET_TAGS = (); }; };
 		B51A33C41BBD8BBE00024A34 /* res in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BC1BBD8BBE00024A34 /* res */; settings = {ASSET_TAGS = (); }; };
@@ -259,6 +261,7 @@
 		B507EFF71BD2D4070011271A /* WelcomeScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WelcomeScene.cpp; sourceTree = "<group>"; };
 		B507EFF81BD2D4070011271A /* WelcomeScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeScene.h; sourceTree = "<group>"; };
 		B507EFFC1BD2D56E0011271A /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
+		B507EFFF1BD2D8900011271A /* EditorScene-saveload.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "EditorScene-saveload.cpp"; sourceTree = "<group>"; };
 		B51A33B71BBD8BBE00024A34 /* 3d */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 3d; sourceTree = "<group>"; };
 		B51A33BA1BBD8BBE00024A34 /* ios_ids.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ios_ids.plist; sourceTree = "<group>"; };
 		B51A33BC1BBD8BBE00024A34 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
@@ -614,6 +617,7 @@
 				B59492B71BD237B3006C2E7B /* delaunay.c */,
 				B59492B81BD237B3006C2E7B /* delaunay.h */,
 				B59492AF1BD129D9006C2E7B /* EditorScene.h */,
+				B507EFFF1BD2D8900011271A /* EditorScene-saveload.cpp */,
 				B59492A31BD0E533006C2E7B /* EditorScene.cpp */,
 				B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */,
 				B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */,
@@ -817,6 +821,7 @@
 				B59492BD1BD237B3006C2E7B /* delaunay.c in Sources */,
 				B549B2061BC8191500201D3A /* Bigmap.cpp in Sources */,
 				B5F85DE41BC97E2C00905498 /* Bigmap-CoverNode.cpp in Sources */,
+				B507F0001BD2D8900011271A /* EditorScene-saveload.cpp in Sources */,
 				B51A33DE1BBD8CEA00024A34 /* TRLocale.cpp in Sources */,
 				B539EAA91BBE711400311CDC /* DDAgent.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
@@ -859,6 +864,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B507F0011BD2DDBF0011271A /* EditorScene-saveload.cpp in Sources */,
 				B507EFFA1BD2D4780011271A /* WelcomeScene.cpp in Sources */,
 				B507EFFB1BD2D4780011271A /* WelcomeScene.h in Sources */,
 				B5A2469E1BD28CA9008C3041 /* delaunay.h in Sources */,

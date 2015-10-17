@@ -193,8 +193,11 @@ protected:
     int _copySrcIndex = 0;
     void plastFrame();
 
-    int pidIndex[NUM_FRAME] = {0};
-    int nextPid(){return (pidIndex[_frameIndex])++;}
+    int _pidIndex[NUM_FRAME] = {0};
+    int nextPid(){return (_pidIndex[_frameIndex])++;}
+
+    void load();
+    void save();
 };
 
 #endif /* EditorScene_hpp */
