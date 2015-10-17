@@ -178,6 +178,7 @@ void EETrianglesNode::configTriangles(const std::list<std::shared_ptr<EETriangle
     }
 }
 
+/*
 void EETrianglesNode::configTriangles2(EETriangle2* tirangles, int num)
 {
     _count = 0;
@@ -202,7 +203,7 @@ void EETrianglesNode::configTriangles2(EETriangle2* tirangles, int num)
         _vertexData[_count].normal = normal;
         _count++;
     }
-}
+}*/
 
 void EETrianglesNode::updateLightPos(cocos2d::Vec2 pos)
 {

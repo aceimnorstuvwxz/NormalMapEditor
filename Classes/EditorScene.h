@@ -18,25 +18,12 @@ struct EEPoint
     cocos2d::Vec3 pos3d(){return {position.x, position.y, height};}
 };
 
-struct EELine
-{
-    std::shared_ptr<EEPoint> a;
-    std::shared_ptr<EEPoint> b;
-};
-
 struct EETriangle
 {
     std::shared_ptr<EEPoint> a;
     std::shared_ptr<EEPoint> b;
     std::shared_ptr<EEPoint> c;
     cocos2d::Vec4 color;
-};
-
-struct EETriangle2
-{
-    cocos2d::Vec2 a;
-    cocos2d::Vec2 b;
-    cocos2d::Vec2 c;
 };
 
 struct EELinesNodeVertexFormat
@@ -51,7 +38,7 @@ public:
     virtual bool init()override;
     void onDraw(const cocos2d::Mat4 &transform, uint32_t flags);
     void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)override;
-    void configLines(const std::list<std::shared_ptr<EELine>>& lines);
+    void configLines(const std::list<std::shared_ptr<EETriangle>>& triangles);
 
 protected:
     void prepareVertexData(); //初始化VAO/VBO
@@ -86,7 +73,6 @@ public:
     void onDraw(const cocos2d::Mat4 &transform, uint32_t flags);
     void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)override;
     void configTriangles(const std::list<std::shared_ptr<EETriangle>>& triangles);
-    void configTriangles2(EETriangle2* tirangles, int num);
     void configShowState(int state) { _showState = state;}
     void updateLightPos(cocos2d::Vec2 pos);
 
@@ -127,34 +113,28 @@ public:
     // 而relativePosition是[-1,1]的单位。
     static cocos2d::Vec2 help_editPosition2relativePosition(const cocos2d::Vec2& editposition);
     static cocos2d::Vec2 help_relativePosition2editPosition(const cocos2d::Vec2& relativePosition);
-    static std::shared_ptr<EEPoint> help_checkTwoLineConnection(const std::shared_ptr<EELine>& a, const std::shared_ptr<EELine>& b);
 
 protected:
     cocos2d::Layer* _layer;
     cocos2d::Layer* _pointLayer;
-
+    int pidIndex = 0;
+    int nextPid(){return pidIndex++;}
 
     // key state
     bool _ks_addPoint = false;
     bool _ks_deletePoint = false;
-    bool _ks_addLine = false;
-    bool _ks_deleteLine = false;
     bool _ks_selection = false;
 
     void initKeyboardMouse();
+    std::unordered_map<int, std::shared_ptr<EEPoint>> _points;
+    std::unordered_map<int, cocos2d::Vec4> _triangleColorMap;
 
-    std::list<std::shared_ptr<EEPoint>> _points;
-    std::list<std::shared_ptr<EELine>> _lines;
     std::list<std::shared_ptr<EETriangle>> _triangles;
+    std::shared_ptr<EEPoint> findSelectedPoint(const cocos2d::Vec2& rawpos);
     void addPoint(const cocos2d::Vec2& rawpos);
     void selectPoint(const cocos2d::Vec2 rawpos);
     void deletePoint(const cocos2d::Vec2& rawpos);
 
-    std::shared_ptr<EEPoint> _firstSelectedPoint = nullptr;
-    std::shared_ptr<EEPoint> findSelectedPoint(const cocos2d::Vec2& rawpos);
-    void addLine(const cocos2d::Vec2& rawpos);
-    void deleteLine(const cocos2d::Vec2& rawpos);
-    void deleteLineWithPoint(const std::shared_ptr<EEPoint>& point);
     EELinesNode* _linesNode;
     void initLinesThings();
     void refreshLines();
@@ -176,8 +156,6 @@ protected:
 
     del_point2d_t _delPoints[10000];
     int _delPointsCount = 0;
-    EETriangle2 _triangles2[10000];
-    int _triangle2count = 0;
     void delaunay();
 
 };

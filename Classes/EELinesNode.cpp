@@ -120,8 +120,9 @@ void EELinesNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
     CHECK_GL_ERROR_DEBUG();
 }
 
-void EELinesNode::configLines(const std::list<std::shared_ptr<EELine>>& lines)
+void EELinesNode::configLines(const std::list<std::shared_ptr<EETriangle>>& triangles)
 {
+    /*
     _count = 0;
     _dirty = true;
     for (auto line : lines) {
@@ -129,5 +130,5 @@ void EELinesNode::configLines(const std::list<std::shared_ptr<EELine>>& lines)
         auto des = EditorScene::help_relativePosition2editPosition(line->b->position);
         _vertexData[_count++].position = src;
         _vertexData[_count++].position = des;
-    }
+    }*/
 }

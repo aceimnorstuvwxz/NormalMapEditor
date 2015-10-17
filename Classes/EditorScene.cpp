@@ -66,12 +66,6 @@ void EditorScene::initKeyboardMouse()
             case EventKeyboard::KeyCode::KEY_T:
                 _ks_deletePoint = true;
                 break;
-            case EventKeyboard::KeyCode::KEY_F:
-                _ks_addLine = true;
-                break;
-            case EventKeyboard::KeyCode::KEY_G:
-                _ks_deleteLine = true;
-                break;
             case EventKeyboard::KeyCode::KEY_A:
                 _ks_selection = true;
                 break;
@@ -100,12 +94,6 @@ void EditorScene::initKeyboardMouse()
             case EventKeyboard::KeyCode::KEY_T:
                 _ks_deletePoint = false;
                 break;
-            case EventKeyboard::KeyCode::KEY_F:
-                _ks_addLine = false;
-                break;
-            case EventKeyboard::KeyCode::KEY_G:
-                _ks_deleteLine = false;
-                break;
             case EventKeyboard::KeyCode::KEY_A:
                 _ks_selection = false;
                 break;
@@ -127,10 +115,6 @@ void EditorScene::initKeyboardMouse()
             addPoint(rawpos);
         } else if (_ks_deletePoint) {
             deletePoint(rawpos);
-        } else if (_ks_addLine) {
-            addLine(rawpos);
-        } else if (_ks_deleteLine) {
-            deleteLine(rawpos);
         } else if (_ks_selection) {
             selectPoint(rawpos);
         }
@@ -181,8 +165,8 @@ void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
     point->sprite->setZOrder(Z_POINTS);
     point->sprite->setScale(0.1);
     _pointLayer->addChild(point->sprite);
-    _points.push_back(point);
-    delaunay();
+    point->pid = nextPid();
+    _points[point->pid] = point;
 }
 
 void EditorScene:: selectPoint(const cocos2d::Vec2 rawpos)
@@ -210,10 +194,10 @@ std::shared_ptr<EEPoint> EditorScene::findSelectedPoint(const cocos2d::Vec2& raw
 {
     auto pos = help_touchPoint2editPosition(rawpos);
 
-    for (auto & point : _points) {
-        auto distance = point->sprite->getPosition().distance(pos);
-        if (distance < point->sprite->getContentSize().width * point->sprite->getScale() /2){
-            return point;
+    for (auto & pair : _points) {
+        auto distance = pair.second->sprite->getPosition().distance(pos);
+        if (distance < pair.second->sprite->getContentSize().width * pair.second->sprite->getScale() /2){
+            return pair.second;
         }
     }
     return nullptr;
@@ -223,115 +207,27 @@ void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
 {
     auto pos = help_touchPoint2editPosition(rawpos);
 
-    for (auto & point : _points) {
-        auto distance = point->sprite->getPosition().distance(pos);
-        if (distance < point->sprite->getContentSize().width * point->sprite->getScale() /2){
+    for (auto & pair : _points) {
+        auto distance = pair.second->sprite->getPosition().distance(pos);
+        if (distance < pair.second->sprite->getContentSize().width * pair.second->sprite->getScale() /2){
             CCLOG("delete point");
-            deleteLineWithPoint(point);
-            _pointLayer->removeChild(point->sprite);
-            _points.remove(point);
-            _selectedPoints.remove(point);
-            refreshLines();
+//            deleteLineWithPoint(point);
+            // remove related triangles
+            _pointLayer->removeChild(pair.second->sprite);
+            _points.erase(pair.first);
+            _selectedPoints.remove(pair.second);
+//            refreshLines();
             return;
-        }
-    }
-    delaunay();
-
-}
-
-void EditorScene::addLine(const cocos2d::Vec2& rawpos)
-{
-    auto selectedPoint = findSelectedPoint(rawpos);
-    if (selectedPoint) {
-        if (_firstSelectedPoint && _firstSelectedPoint != selectedPoint) {
-
-            for (auto& line : _lines) {
-                if ((line->a == _firstSelectedPoint && line->b == selectedPoint) || (line->b == _firstSelectedPoint && line->a == selectedPoint)) {
-                    _firstSelectedPoint = selectedPoint;
-                    return;
-                }
-            }
-            CCLOG("add line");
-            auto line = std::make_shared<EELine>();
-            line->a = _firstSelectedPoint;
-            line->b = selectedPoint;
-            _lines.push_back(line);
-            refreshLines();
-            _firstSelectedPoint = nullptr;
-        } else {
-            _firstSelectedPoint = selectedPoint;
-        }
-    }
-}
-
-void EditorScene::deleteLine(const cocos2d::Vec2& rawpos)
-{
-    auto selectedPoint = findSelectedPoint(rawpos);
-    if (selectedPoint) {
-        if (_firstSelectedPoint && _firstSelectedPoint != selectedPoint) {
-
-            for (auto& line : _lines) {
-                if ((line->a == _firstSelectedPoint && line->b == selectedPoint) || (line->b == _firstSelectedPoint && line->a == selectedPoint)) {
-                    CCLOG("remove line");
-                    _lines.remove(line);
-                    break;
-                }
-            }
-
-            refreshLines();
-            _firstSelectedPoint = nullptr;
-        } else {
-            _firstSelectedPoint = selectedPoint;
-        }
-    }
-}
-
-void EditorScene::deleteLineWithPoint(const std::shared_ptr<EEPoint>& point)
-{
-    for (auto iter = _lines.begin(); iter != _lines.end(); ) {
-        if ((*iter)->a == point || (*iter)->b == point) {
-            iter = _lines.erase(iter);
-        } else {
-            iter++;
         }
     }
 }
 
 void EditorScene::refreshLines()
 {
-    _linesNode->configLines(_lines);
-    refreshTriangles();
-}
-
-std::shared_ptr<EEPoint> EditorScene::help_checkTwoLineConnection(const std::shared_ptr<EELine>& a, const std::shared_ptr<EELine>& b)
-{
-    return  a->a == b->a ? a->a :
-    a->a == b->b ? a->a :
-    a->b == b->a ? a->b :
-    a->b == b->b ? a->b : nullptr;
 }
 
 void EditorScene::refreshTriangles()
 {
-    _triangles.clear();
-    for (auto ia = _lines.begin(); ia != _lines.end(); ia++) {
-        auto ib = ia;ib++; if (ib == _lines.end()) continue;
-        for (; ib != _lines.end(); ib++) {
-            auto ic = ib; ic++; if(ic == _lines.end()) continue;
-            for (; ic != _lines.end(); ic++) {
-                auto la = help_checkTwoLineConnection(*ia, *ib);
-                auto lb = help_checkTwoLineConnection(*ia, *ic);
-                auto lc = help_checkTwoLineConnection(*ib, *ic);
-                if (la && lb && lc){
-                    auto t = std::make_shared<EETriangle>();
-                    t->a = la;
-                    t->b = lb;
-                    t->c = lc;
-                    _triangles.push_back(t);
-                }
-            }
-        }
-    }
     _trianglesNode->configTriangles(_triangles);
 }
 
@@ -397,6 +293,22 @@ void EditorScene::moveUp(bool isup)
 
 void  EditorScene::delaunay()
 {
+
+    /*
+     typedef struct {
+     /** input points count
+     unsigned int	num_points;
+
+     /** input points
+     del_point2d_t*	points;
+
+     /** number of triangles
+     unsigned int	num_triangles;
+
+     the triangles indices v0,v1,v2, v0,v1,v2 ....
+     unsigned int*	tris;
+     } tri_delaunay2d_t;
+     *//*
     if (_points.size() < 3) {
         return;
     }
@@ -411,21 +323,7 @@ void  EditorScene::delaunay()
     auto res_poly = delaunay2d_from(_delPoints, _delPointsCount);
     auto res_tri = tri_delaunay2d_from(res_poly);
 
-    /*
-     typedef struct {
-     /** input points count
-    unsigned int	num_points;
 
-    /** input points
-    del_point2d_t*	points;
-
-    /** number of triangles
-    unsigned int	num_triangles;
-
-     the triangles indices v0,v1,v2, v0,v1,v2 ....
-    unsigned int*	tris;
-} tri_delaunay2d_t;
-     */
     _triangle2count = 0;
     for (int i = 0; i < res_tri->num_triangles; i++) {
         _triangles2[_triangle2count].a.x = res_tri->points[res_tri->tris[i*3]].x;
@@ -440,5 +338,5 @@ void  EditorScene::delaunay()
 
 
     delaunay2d_release(res_poly);
-    tri_delaunay2d_release(res_tri);
+    tri_delaunay2d_release(res_tri);*/
 }
