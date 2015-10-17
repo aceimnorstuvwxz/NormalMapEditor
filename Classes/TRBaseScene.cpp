@@ -44,7 +44,7 @@ ui::Button* TRBaseScene::addCommonBtn(const Vec2& pos, const std::string& text, 
 
 Label* TRBaseScene::addCommonLabel(const cocos2d::Vec2 &pos, const std::string &text, int size)
 {
-    auto lb = Label::createWithTTF(text, "fonts/stringfonts/Titillium-Light.ttf", size);
+    auto lb = Label::createWithTTF(text, "fonts/fz.ttf", size);
     lb->setPosition(genPos(pos));
     _defaultLayer->addChild(lb);
     return lb;
