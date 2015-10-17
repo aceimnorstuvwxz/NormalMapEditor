@@ -6,6 +6,7 @@
 #include "TRBaseScene.h"
 #include "DDConfig.h"
 #include "BattleField.h"
+#include "delaunay.h"
 
 
 struct EEPoint
@@ -29,6 +30,13 @@ struct EETriangle
     std::shared_ptr<EEPoint> b;
     std::shared_ptr<EEPoint> c;
     cocos2d::Vec4 color;
+};
+
+struct EETriangle2
+{
+    cocos2d::Vec2 a;
+    cocos2d::Vec2 b;
+    cocos2d::Vec2 c;
 };
 
 struct EELinesNodeVertexFormat
@@ -78,6 +86,7 @@ public:
     void onDraw(const cocos2d::Mat4 &transform, uint32_t flags);
     void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags)override;
     void configTriangles(const std::list<std::shared_ptr<EETriangle>>& triangles);
+    void configTriangles2(EETriangle2* tirangles, int num);
     void configShowState(int state) { _showState = state;}
     void updateLightPos(cocos2d::Vec2 pos);
 
@@ -164,6 +173,12 @@ protected:
     void clearSelection();
 
     void moveUp(bool isup);
+
+    del_point2d_t _delPoints[10000];
+    int _delPointsCount = 0;
+    EETriangle2 _triangles2[10000];
+    int _triangle2count = 0;
+    void delaunay();
 
 };
 

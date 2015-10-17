@@ -21,6 +21,12 @@ bool EditorScene::init()
     initKeyboardMouse();
     addTestLights();
 
+    addCommonBtn({0.1,0.1}, "test tri", [this](){
+
+        delaunay();
+
+    });
+
     return true;
 }
 
@@ -176,6 +182,7 @@ void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
     point->sprite->setScale(0.1);
     _pointLayer->addChild(point->sprite);
     _points.push_back(point);
+    delaunay();
 }
 
 void EditorScene:: selectPoint(const cocos2d::Vec2 rawpos)
@@ -228,6 +235,8 @@ void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
             return;
         }
     }
+    delaunay();
+
 }
 
 void EditorScene::addLine(const cocos2d::Vec2& rawpos)
@@ -383,4 +392,53 @@ void EditorScene::moveUp(bool isup)
         point->height += isup ? move_step : -move_step;
     }
     refreshTriangles();
+}
+
+
+void  EditorScene::delaunay()
+{
+    if (_points.size() < 3) {
+        return;
+    }
+    CCLOG("delaunay");
+    _delPointsCount = 0;
+    for (auto p : _points) {
+        _delPoints[_delPointsCount].x = p->position.x;
+        _delPoints[_delPointsCount].y = p->position.y;
+        _delPointsCount++;
+    }
+
+    auto res_poly = delaunay2d_from(_delPoints, _delPointsCount);
+    auto res_tri = tri_delaunay2d_from(res_poly);
+
+    /*
+     typedef struct {
+     /** input points count
+    unsigned int	num_points;
+
+    /** input points
+    del_point2d_t*	points;
+
+    /** number of triangles
+    unsigned int	num_triangles;
+
+     the triangles indices v0,v1,v2, v0,v1,v2 ....
+    unsigned int*	tris;
+} tri_delaunay2d_t;
+     */
+    _triangle2count = 0;
+    for (int i = 0; i < res_tri->num_triangles; i++) {
+        _triangles2[_triangle2count].a.x = res_tri->points[res_tri->tris[i*3]].x;
+        _triangles2[_triangle2count].a.y = res_tri->points[res_tri->tris[i*3]].y;
+        _triangles2[_triangle2count].b.x = res_tri->points[res_tri->tris[i*3+1]].x;
+        _triangles2[_triangle2count].b.y = res_tri->points[res_tri->tris[i*3+1]].y;
+        _triangles2[_triangle2count].c.x = res_tri->points[res_tri->tris[i*3+2]].x;
+        _triangles2[_triangle2count].c.y = res_tri->points[res_tri->tris[i*3+2]].y;
+        _triangle2count ++;
+    }
+    _trianglesNode->configTriangles2(_triangles2, _triangle2count);
+
+
+    delaunay2d_release(res_poly);
+    tri_delaunay2d_release(res_tri);
 }

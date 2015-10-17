@@ -149,6 +149,8 @@
 		B59492AD1BD126E0006C2E7B /* EELinesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */; settings = {ASSET_TAGS = (); }; };
 		B59492B11BD1360A006C2E7B /* EETrianglesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */; settings = {ASSET_TAGS = (); }; };
 		B59492B21BD1360A006C2E7B /* EETrianglesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */; settings = {ASSET_TAGS = (); }; };
+		B59492BD1BD237B3006C2E7B /* delaunay.c in Sources */ = {isa = PBXBuildFile; fileRef = B59492B71BD237B3006C2E7B /* delaunay.c */; settings = {ASSET_TAGS = (); }; };
+		B59492BE1BD237B3006C2E7B /* delaunay.c in Sources */ = {isa = PBXBuildFile; fileRef = B59492B71BD237B3006C2E7B /* delaunay.c */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D01BC25A3D002FDE82 /* BattleField-low.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1CE1BC25A3D002FDE82 /* BattleField-low.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D31BC282B1002FDE82 /* BattleField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1D21BC282B1002FDE82 /* BattleField.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D51BC28908002FDE82 /* BattleField-middle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1D41BC28908002FDE82 /* BattleField-middle.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -300,6 +302,8 @@
 		B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EELinesNode.cpp; sourceTree = "<group>"; };
 		B59492AF1BD129D9006C2E7B /* EditorScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorScene.h; sourceTree = "<group>"; };
 		B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EETrianglesNode.cpp; sourceTree = "<group>"; };
+		B59492B71BD237B3006C2E7B /* delaunay.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = delaunay.c; sourceTree = "<group>"; };
+		B59492B81BD237B3006C2E7B /* delaunay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = delaunay.h; sourceTree = "<group>"; };
 		B5F3A1CE1BC25A3D002FDE82 /* BattleField-low.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "BattleField-low.cpp"; sourceTree = "<group>"; };
 		B5F3A1CF1BC25A3D002FDE82 /* BattleField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleField.h; sourceTree = "<group>"; };
 		B5F3A1D21BC282B1002FDE82 /* BattleField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleField.cpp; sourceTree = "<group>"; };
@@ -595,6 +599,8 @@
 		B59492A21BD0E4EA006C2E7B /* editor */ = {
 			isa = PBXGroup;
 			children = (
+				B59492B71BD237B3006C2E7B /* delaunay.c */,
+				B59492B81BD237B3006C2E7B /* delaunay.h */,
 				B59492AF1BD129D9006C2E7B /* EditorScene.h */,
 				B59492A31BD0E533006C2E7B /* EditorScene.cpp */,
 				B59492AA1BD126E0006C2E7B /* EELinesNode.cpp */,
@@ -798,6 +804,7 @@
 				B55118A01BC032FB00587021 /* DDMapData-gaming.cpp in Sources */,
 				B5F3A1DF1BC50180002FDE82 /* BattleField-agentnode.cpp in Sources */,
 				B539EAA31BBDB22C00311CDC /* DDConfig.cpp in Sources */,
+				B59492BD1BD237B3006C2E7B /* delaunay.c in Sources */,
 				B549B2061BC8191500201D3A /* Bigmap.cpp in Sources */,
 				B5F85DE41BC97E2C00905498 /* Bigmap-CoverNode.cpp in Sources */,
 				B51A33DE1BBD8CEA00024A34 /* TRLocale.cpp in Sources */,
@@ -864,6 +871,7 @@
 				B52159D81BCFED200022EC33 /* DDMapData-saveload.cpp in Sources */,
 				B52159D91BCFED200022EC33 /* DDMapData-minmap.cpp in Sources */,
 				B52159DA1BCFED200022EC33 /* DDMapData.cpp in Sources */,
+				B59492BE1BD237B3006C2E7B /* delaunay.c in Sources */,
 				B52159DB1BCFED200022EC33 /* DDMapData.h in Sources */,
 				B52159DC1BCFED200022EC33 /* DDConfig.cpp in Sources */,
 				B52159DD1BCFED200022EC33 /* DDConfig.h in Sources */,

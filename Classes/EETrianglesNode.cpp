@@ -86,7 +86,7 @@ void EETrianglesNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
     glProgram->setUniformLocationWith1i(loc, _showState);
     loc = glProgram->getUniformLocation("u_light_position");
     glProgram->setUniformLocationWith2fv(loc, &(_lightPos.x), 1);
-    CCLOG("%f %f", _lightPos.x, _lightPos.y);
+//    CCLOG("%f %f", _lightPos.x, _lightPos.y);
 
     glProgram->setUniformsForBuiltins(transform);
 
@@ -173,6 +173,32 @@ void EETrianglesNode::configTriangles(const std::list<std::shared_ptr<EETriangle
         _count++;
         _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(triangle->c->position);
         _vertexData[_count].color = {0.5,0.5,0.5,1.0};
+        _vertexData[_count].normal = normal;
+        _count++;
+    }
+}
+
+void EETrianglesNode::configTriangles2(EETriangle2* tirangles, int num)
+{
+    _count = 0;
+    _dirty = true;
+    for (int i = 0; i < num; i++) {
+        // normal
+        auto normal = Vec3{0,0,1};
+
+        float cc = rand_0_1();
+        Vec4 col = {cc, cc,cc, 1.0};
+
+        _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(tirangles[i].a);
+        _vertexData[_count].color = col;//{0.5,0.5,0.5,1.0};
+        _vertexData[_count].normal = normal;
+        _count++;
+        _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(tirangles[i].b);
+        _vertexData[_count].color = col;//{0.5,0.5,0.5,1.0};
+        _vertexData[_count].normal = normal;
+        _count++;
+        _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(tirangles[i].c);
+        _vertexData[_count].color = col;//{0.5,0.5,0.5,1.0};
         _vertexData[_count].normal = normal;
         _count++;
     }
