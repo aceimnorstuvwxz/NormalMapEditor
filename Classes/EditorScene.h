@@ -179,6 +179,7 @@ protected:
     void shadingTriangle(cocos2d::Vec2 rawpos);
     std::shared_ptr<EETriangle> findTriangle(cocos2d::Vec2 rawpos);
 
+    cocos2d::Sprite* _rulerBg;
 };
 
 #endif /* EditorScene_hpp */

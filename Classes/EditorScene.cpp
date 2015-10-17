@@ -22,6 +22,10 @@ bool EditorScene::init()
     _pointLayer->setPosition({512,256+512});
     this->addChild(_pointLayer);
 
+    _rulerBg = Sprite::create("images/ruler.png");
+    _rulerBg->setOpacity(128);
+    _presentingLayer->addChild(_rulerBg);
+
 
 
     _diggColorPanel = Sprite::create("images/dfdg.png");
@@ -102,6 +106,7 @@ void EditorScene::initKeyboardMouse()
                 break;
             case EventKeyboard::KeyCode::KEY_P:
                 _pointLayer->setVisible(!_pointLayer->isVisible());
+                _rulerBg->setVisible(!_rulerBg->isVisible());
                 break;
             case EventKeyboard::KeyCode::KEY_Y:
                 this->delaunay();
