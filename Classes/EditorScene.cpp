@@ -167,6 +167,9 @@ void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
     _pointLayer->addChild(point->sprite);
     point->pid = nextPid();
     _points[point->pid] = point;
+    delaunay();
+    refreshLines();
+    refreshTriangles();
 }
 
 void EditorScene:: selectPoint(const cocos2d::Vec2 rawpos)
@@ -211,12 +214,14 @@ void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
         auto distance = pair.second->sprite->getPosition().distance(pos);
         if (distance < pair.second->sprite->getContentSize().width * pair.second->sprite->getScale() /2){
             CCLOG("delete point");
-//            deleteLineWithPoint(point);
-            // remove related triangles
             _pointLayer->removeChild(pair.second->sprite);
             _points.erase(pair.first);
             _selectedPoints.remove(pair.second);
-//            refreshLines();
+
+            delaunay();
+            refreshLines();
+            refreshTriangles();
+
             return;
         }
     }
@@ -228,6 +233,12 @@ void EditorScene::refreshLines()
 
 void EditorScene::refreshTriangles()
 {
+    // refill color
+    for (auto tri : _triangles) {
+        int key = tri->calcKey();
+        float cc = rand_0_1();
+        tri->color =  _triangleColorMap.count(key) > 0  ?_triangleColorMap[key] : Vec4{cc,cc,cc,1.0};
+    }
     _trianglesNode->configTriangles(_triangles);
 }
 
@@ -308,15 +319,16 @@ void  EditorScene::delaunay()
      the triangles indices v0,v1,v2, v0,v1,v2 ....
      unsigned int*	tris;
      } tri_delaunay2d_t;
-     *//*
+     */
     if (_points.size() < 3) {
         return;
     }
     CCLOG("delaunay");
     _delPointsCount = 0;
-    for (auto p : _points) {
-        _delPoints[_delPointsCount].x = p->position.x;
-        _delPoints[_delPointsCount].y = p->position.y;
+    for (auto pair : _points) {
+        _delPoints[_delPointsCount].x = pair.second->position.x;
+        _delPoints[_delPointsCount].y = pair.second->position.y;
+        _delPoints[_delPointsCount].pid = pair.first;
         _delPointsCount++;
     }
 
@@ -324,19 +336,15 @@ void  EditorScene::delaunay()
     auto res_tri = tri_delaunay2d_from(res_poly);
 
 
-    _triangle2count = 0;
+    _triangles.clear();
     for (int i = 0; i < res_tri->num_triangles; i++) {
-        _triangles2[_triangle2count].a.x = res_tri->points[res_tri->tris[i*3]].x;
-        _triangles2[_triangle2count].a.y = res_tri->points[res_tri->tris[i*3]].y;
-        _triangles2[_triangle2count].b.x = res_tri->points[res_tri->tris[i*3+1]].x;
-        _triangles2[_triangle2count].b.y = res_tri->points[res_tri->tris[i*3+1]].y;
-        _triangles2[_triangle2count].c.x = res_tri->points[res_tri->tris[i*3+2]].x;
-        _triangles2[_triangle2count].c.y = res_tri->points[res_tri->tris[i*3+2]].y;
-        _triangle2count ++;
+        auto tri = std::make_shared<EETriangle>();
+        tri->a = _points[res_tri->points[res_tri->tris[i*3]].pid];
+        tri->b = _points[res_tri->points[res_tri->tris[i*3+1]].pid];
+        tri->c = _points[res_tri->points[res_tri->tris[i*3+2]].pid];
+        _triangles.push_back(tri);
     }
-    _trianglesNode->configTriangles2(_triangles2, _triangle2count);
-
 
     delaunay2d_release(res_poly);
-    tri_delaunay2d_release(res_tri);*/
+    tri_delaunay2d_release(res_tri);
 }

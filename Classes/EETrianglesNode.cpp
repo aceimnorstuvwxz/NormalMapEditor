@@ -164,15 +164,15 @@ void EETrianglesNode::configTriangles(const std::list<std::shared_ptr<EETriangle
 
 
         _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(triangle->a->position);
-        _vertexData[_count].color = {0.5,0.5,0.5,1.0};
+        _vertexData[_count].color = triangle->color;
         _vertexData[_count].normal = normal;
         _count++;
         _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(triangle->b->position);
-        _vertexData[_count].color = {0.5,0.5,0.5,1.0};
+        _vertexData[_count].color = triangle->color;
         _vertexData[_count].normal = normal;
         _count++;
         _vertexData[_count].position = EditorScene::help_relativePosition2editPosition(triangle->c->position);
-        _vertexData[_count].color = {0.5,0.5,0.5,1.0};
+        _vertexData[_count].color = triangle->color;
         _vertexData[_count].normal = normal;
         _count++;
     }

@@ -7,6 +7,7 @@
 #include "DDConfig.h"
 #include "BattleField.h"
 #include "delaunay.h"
+#include <algorithm>
 
 
 struct EEPoint
@@ -24,6 +25,13 @@ struct EETriangle
     std::shared_ptr<EEPoint> b;
     std::shared_ptr<EEPoint> c;
     cocos2d::Vec4 color;
+    int calcKey(){
+
+        std::vector<int> pids = {a->pid, b->pid, c->pid};
+        std::sort(pids.begin(), pids.end());
+        CCLOG("%d %d %d", pids[0], pids[1], pids[2]);
+        return pids[0]*1000000 + pids[1] * 1000 + pids[2];
+    }
 };
 
 struct EELinesNodeVertexFormat

@@ -32,6 +32,7 @@ typedef double real;
 
 typedef struct {
 	real	x, y;
+    int pid;
 } del_point2d_t;
 
 typedef struct {
