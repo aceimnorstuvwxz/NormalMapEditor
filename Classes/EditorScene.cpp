@@ -2,6 +2,7 @@
 
 #include "EditorScene.h"
 #include "TRLocale.h"
+#include "format.h"
 
 USING_NS_CC;
 
@@ -13,8 +14,17 @@ bool EditorScene::init()
     this->addChild(_layer);
 
     _pointLayer = Layer::create();
-    _pointLayer->setPosition(genPos({0.5,0.5}));
+    _pointLayer->setPosition({512,256+512});
     this->addChild(_pointLayer);
+
+
+    _diggColorPanel = Sprite::create("images/dfdg.png");
+    _diggColorPanel->setPosition({512,256/2});
+    _layer->addChild(_diggColorPanel);
+
+    _diggColorLabel = Label::createWithTTF("color", "fonts/fz.ttf", 25);
+    _diggColorLabel->setPosition({512, 256*0.77});
+    _layer->addChild(_diggColorLabel);
 
     initLinesThings();
     initTrianglesThings();
@@ -33,7 +43,7 @@ bool EditorScene::init()
 cocos2d::Vec2 EditorScene::help_touchPoint2editPosition(const cocos2d::Vec2& touchpoint)
 {
     auto size = Director::getInstance()->getWinSize();
-    return {touchpoint.x - size.width/2, touchpoint.y - size.height/2};
+    return {touchpoint.x - size.width/2, touchpoint.y - 1024/2 - 256};
 }
 
 void EditorScene::initLinesThings()
@@ -111,12 +121,19 @@ void EditorScene::initKeyboardMouse()
         auto rawpos = touch->getLocation();
         CCLOG("click in at %f %f", rawpos.x, rawpos.y);
 
+        if (rawpos.y < 256) {
+            diggColor(rawpos);
+
+            return false;
+        } else {
+
         if (_ks_addPoint) {
             addPoint(rawpos);
         } else if (_ks_deletePoint) {
             deletePoint(rawpos);
         } else if (_ks_selection) {
             selectPoint(rawpos);
+        }
         }
 
         return _selectedPoints.size() > 0;
@@ -351,4 +368,27 @@ void  EditorScene::delaunay()
 
     delaunay2d_release(res_poly);
     tri_delaunay2d_release(res_tri);
+}
+
+
+
+void EditorScene::diggColor(cocos2d::Vec2 rawpos)
+{
+    float radio = 1.0*rawpos.x/1024.0;
+    if (rawpos.y < 44) {
+        _diggingColor.w = radio;
+    } else if (rawpos.y < 44*2) {
+        _diggingColor.z = radio;
+    } else if (rawpos.y < 44*3) {
+        _diggingColor.y = radio;
+    } else if (rawpos.y < 44*4) {
+        _diggingColor.x = radio;
+    }
+    refreshDiggColor();
+}
+
+void EditorScene::refreshDiggColor()
+{
+    _diggColorLabel->setString(fmt::sprintf(" |||||||||||||||||||||||||R=%.2f, G=%.2f, B=%.2f, A=%.2f |||||||||||||||||||||||||", _diggingColor.x, _diggingColor.y, _diggingColor.z, _diggingColor.w));
+    _diggColorLabel->setTextColor({static_cast<GLubyte>(_diggingColor.x*255),static_cast<GLubyte>(_diggingColor.y*255), static_cast<GLubyte>(_diggingColor.z*255), static_cast<GLubyte>(_diggingColor.w*255)});
 }

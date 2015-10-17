@@ -166,6 +166,14 @@ protected:
     int _delPointsCount = 0;
     void delaunay();
 
+
+    cocos2d::Vec4 _diggingColor;
+    cocos2d::Sprite* _diggColorPanel;
+    cocos2d::Label* _diggColorLabel;
+
+    void diggColor(cocos2d::Vec2 rawpos);
+    void refreshDiggColor();
+
 };
 
 #endif /* EditorScene_hpp */
