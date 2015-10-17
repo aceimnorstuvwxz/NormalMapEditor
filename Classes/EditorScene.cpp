@@ -229,6 +229,7 @@ void EditorScene::deletePoint(const cocos2d::Vec2 &rawpos)
 
 void EditorScene::refreshLines()
 {
+    _linesNode->configLines(_triangles);
 }
 
 void EditorScene::refreshTriangles()
@@ -236,8 +237,10 @@ void EditorScene::refreshTriangles()
     // refill color
     for (auto tri : _triangles) {
         int key = tri->calcKey();
-        float cc = rand_0_1();
-        tri->color =  _triangleColorMap.count(key) > 0  ?_triangleColorMap[key] : Vec4{cc,cc,cc,1.0};
+        if (_triangleColorMap.count(key) == 0) {
+            _triangleColorMap[key] = Vec4{0.5,0.5,0.5, 1.0};
+        }
+        tri->color = _triangleColorMap[key];
     }
     _trianglesNode->configTriangles(_triangles);
 }

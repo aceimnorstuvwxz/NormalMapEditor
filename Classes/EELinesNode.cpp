@@ -122,13 +122,18 @@ void EELinesNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
 
 void EELinesNode::configLines(const std::list<std::shared_ptr<EETriangle>>& triangles)
 {
-    /*
+
     _count = 0;
     _dirty = true;
-    for (auto line : lines) {
-        auto src = EditorScene::help_relativePosition2editPosition(line->a->position);
-        auto des = EditorScene::help_relativePosition2editPosition(line->b->position);
-        _vertexData[_count++].position = src;
-        _vertexData[_count++].position = des;
-    }*/
+    for (auto tri : triangles) {
+        auto a = EditorScene::help_relativePosition2editPosition(tri->a->position);
+        auto b = EditorScene::help_relativePosition2editPosition(tri->b->position);
+        auto c = EditorScene::help_relativePosition2editPosition(tri->c->position);
+        _vertexData[_count++].position = a;
+        _vertexData[_count++].position = b;
+        _vertexData[_count++].position = b;
+        _vertexData[_count++].position = c;
+        _vertexData[_count++].position = c;
+        _vertexData[_count++].position = a;
+    }
 }
