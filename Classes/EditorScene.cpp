@@ -220,7 +220,7 @@ void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
     point->sprite = Sprite::create("images/point_normal.png");
     point->sprite->setPosition(help_relativePosition2editPosition(point->position));
     point->sprite->setZOrder(Z_POINTS);
-    point->sprite->setScale(0.1);
+    point->sprite->setScale(0.05);
     _pointLayer->addChild(point->sprite);
     point->pid = nextPid();
     _points[point->pid] = point;
@@ -363,7 +363,7 @@ void EditorScene::clearSelection()
 
 void EditorScene::moveUp(bool isup)
 {
-    const float move_step = 0.05;
+    const float move_step = 0.015;
     for (auto point : _selectedPoints) {
         point->height += isup ? move_step : -move_step;
     }
