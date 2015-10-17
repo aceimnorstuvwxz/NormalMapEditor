@@ -132,6 +132,8 @@ protected:
     bool _ks_addPoint = false;
     bool _ks_deletePoint = false;
     bool _ks_selection = false;
+    bool _ks_shading = false;
+    bool _ks_digging = false;
 
     void initKeyboardMouse();
     std::unordered_map<int, std::shared_ptr<EEPoint>> _points;
@@ -173,6 +175,9 @@ protected:
 
     void diggColor(cocos2d::Vec2 rawpos);
     void refreshDiggColor();
+    void shadingTriangle(cocos2d::Vec2 rawpos);
+    std::shared_ptr<EETriangle> findTriangle(cocos2d::Vec2 rawpos);
+
 
 };
 

@@ -3,6 +3,7 @@
 #include "EditorScene.h"
 #include "TRLocale.h"
 #include "format.h"
+#include "intersection.h"
 
 USING_NS_CC;
 
@@ -88,6 +89,12 @@ void EditorScene::initKeyboardMouse()
             case EventKeyboard::KeyCode::KEY_S:
                 moveUp(false);
                 break;
+            case EventKeyboard::KeyCode::KEY_F:
+                _ks_shading = true;
+                break;
+            case EventKeyboard::KeyCode::KEY_G:
+                _ks_digging = true;
+                break;
 
             default:
                 break;
@@ -107,7 +114,12 @@ void EditorScene::initKeyboardMouse()
             case EventKeyboard::KeyCode::KEY_A:
                 _ks_selection = false;
                 break;
-
+            case EventKeyboard::KeyCode::KEY_F:
+                _ks_shading = false;
+                break;
+            case EventKeyboard::KeyCode::KEY_G:
+                _ks_digging = false;
+                break;
             default:
                 break;
         }
@@ -127,13 +139,17 @@ void EditorScene::initKeyboardMouse()
             return false;
         } else {
 
-        if (_ks_addPoint) {
-            addPoint(rawpos);
-        } else if (_ks_deletePoint) {
-            deletePoint(rawpos);
-        } else if (_ks_selection) {
-            selectPoint(rawpos);
-        }
+            if (_ks_addPoint) {
+                addPoint(rawpos);
+            } else if (_ks_deletePoint) {
+                deletePoint(rawpos);
+            } else if (_ks_selection) {
+                selectPoint(rawpos);
+            } else if (_ks_shading) {
+                shadingTriangle(rawpos);
+            } else if (_ks_digging) {
+                diggColor(rawpos);
+            }
         }
 
         return _selectedPoints.size() > 0;
@@ -383,6 +399,11 @@ void EditorScene::diggColor(cocos2d::Vec2 rawpos)
         _diggingColor.y = radio;
     } else if (rawpos.y < 44*4) {
         _diggingColor.x = radio;
+    } else if (rawpos.y > 256) {
+        auto tri = findTriangle(rawpos);
+        if (tri) {
+            _diggingColor = _triangleColorMap[tri->calcKey()];
+        }
     }
     refreshDiggColor();
 }
@@ -391,4 +412,34 @@ void EditorScene::refreshDiggColor()
 {
     _diggColorLabel->setString(fmt::sprintf(" |||||||||||||||||||||||||R=%.2f, G=%.2f, B=%.2f, A=%.2f |||||||||||||||||||||||||", _diggingColor.x, _diggingColor.y, _diggingColor.z, _diggingColor.w));
     _diggColorLabel->setTextColor({static_cast<GLubyte>(_diggingColor.x*255),static_cast<GLubyte>(_diggingColor.y*255), static_cast<GLubyte>(_diggingColor.z*255), static_cast<GLubyte>(_diggingColor.w*255)});
+}
+
+void EditorScene::shadingTriangle(cocos2d::Vec2 rawpos)
+{
+    auto tri = findTriangle(rawpos);
+    if (tri) {
+        _triangleColorMap[tri->calcKey()] = _diggingColor;
+        tri->color = _diggingColor;
+        refreshTriangles();
+    }
+}
+
+std::shared_ptr<EETriangle> EditorScene::findTriangle(cocos2d::Vec2 rawpos)
+{
+    float tmpOut;
+    auto ori = help_touchPoint2editPosition(rawpos);
+    ori = help_editPosition2relativePosition(ori);
+    for (auto tri : _triangles) {
+
+        if (triangle_intersection(tri->a->pos3d(),  // Triangle vertices
+                                  tri->b->pos3d(),
+                                  tri->c->pos3d(),
+                                  Vec3{ori.x, ori.y, 5.0},  //Ray origin
+                                  Vec3{0.f,0.f,-1.f},  //Ray direction
+                                  &tmpOut)) {
+            return tri;
+            
+        }
+    }
+    return nullptr;
 }

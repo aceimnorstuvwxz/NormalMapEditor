@@ -151,6 +151,11 @@
 		B59492B21BD1360A006C2E7B /* EETrianglesNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */; settings = {ASSET_TAGS = (); }; };
 		B59492BD1BD237B3006C2E7B /* delaunay.c in Sources */ = {isa = PBXBuildFile; fileRef = B59492B71BD237B3006C2E7B /* delaunay.c */; settings = {ASSET_TAGS = (); }; };
 		B59492BE1BD237B3006C2E7B /* delaunay.c in Sources */ = {isa = PBXBuildFile; fileRef = B59492B71BD237B3006C2E7B /* delaunay.c */; settings = {ASSET_TAGS = (); }; };
+		B5A2469D1BD28ACA008C3041 /* intersection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2469B1BD28ACA008C3041 /* intersection.cpp */; settings = {ASSET_TAGS = (); }; };
+		B5A2469E1BD28CA9008C3041 /* delaunay.h in Sources */ = {isa = PBXBuildFile; fileRef = B59492B81BD237B3006C2E7B /* delaunay.h */; };
+		B5A2469F1BD28CA9008C3041 /* EditorScene.h in Sources */ = {isa = PBXBuildFile; fileRef = B59492AF1BD129D9006C2E7B /* EditorScene.h */; };
+		B5A246A01BD28CA9008C3041 /* intersection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2469B1BD28ACA008C3041 /* intersection.cpp */; };
+		B5A246A11BD28CA9008C3041 /* intersection.h in Sources */ = {isa = PBXBuildFile; fileRef = B5A2469C1BD28ACA008C3041 /* intersection.h */; };
 		B5F3A1D01BC25A3D002FDE82 /* BattleField-low.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1CE1BC25A3D002FDE82 /* BattleField-low.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D31BC282B1002FDE82 /* BattleField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1D21BC282B1002FDE82 /* BattleField.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1D51BC28908002FDE82 /* BattleField-middle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1D41BC28908002FDE82 /* BattleField-middle.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -304,6 +309,8 @@
 		B59492B01BD1360A006C2E7B /* EETrianglesNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EETrianglesNode.cpp; sourceTree = "<group>"; };
 		B59492B71BD237B3006C2E7B /* delaunay.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = delaunay.c; sourceTree = "<group>"; };
 		B59492B81BD237B3006C2E7B /* delaunay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = delaunay.h; sourceTree = "<group>"; };
+		B5A2469B1BD28ACA008C3041 /* intersection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = intersection.cpp; sourceTree = "<group>"; };
+		B5A2469C1BD28ACA008C3041 /* intersection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = intersection.h; sourceTree = "<group>"; };
 		B5F3A1CE1BC25A3D002FDE82 /* BattleField-low.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "BattleField-low.cpp"; sourceTree = "<group>"; };
 		B5F3A1CF1BC25A3D002FDE82 /* BattleField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleField.h; sourceTree = "<group>"; };
 		B5F3A1D21BC282B1002FDE82 /* BattleField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleField.cpp; sourceTree = "<group>"; };
@@ -533,6 +540,8 @@
 		B51A33CA1BBD8C9B00024A34 /* fromrolk */ = {
 			isa = PBXGroup;
 			children = (
+				B5A2469B1BD28ACA008C3041 /* intersection.cpp */,
+				B5A2469C1BD28ACA008C3041 /* intersection.h */,
 				B51A33CB1BBD8CEA00024A34 /* EditState.cpp */,
 				B51A33CC1BBD8CEA00024A34 /* EditState.h */,
 				B51A33CD1BBD8CEA00024A34 /* format.cpp */,
@@ -838,6 +847,7 @@
 				B59492AC1BD126E0006C2E7B /* EELinesNode.cpp in Sources */,
 				B51A33DB1BBD8CEA00024A34 /* McdLayer.cpp in Sources */,
 				B59492A51BD0E533006C2E7B /* EditorScene.cpp in Sources */,
+				B5A2469D1BD28ACA008C3041 /* intersection.cpp in Sources */,
 				B5F3A1D01BC25A3D002FDE82 /* BattleField-low.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 			);
@@ -847,6 +857,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A2469E1BD28CA9008C3041 /* delaunay.h in Sources */,
+				B5A2469F1BD28CA9008C3041 /* EditorScene.h in Sources */,
+				B5A246A01BD28CA9008C3041 /* intersection.cpp in Sources */,
+				B5A246A11BD28CA9008C3041 /* intersection.h in Sources */,
 				B59492A61BD0E5F0006C2E7B /* EditorScene.cpp in Sources */,
 				B52159C41BCFED200022EC33 /* EditState.cpp in Sources */,
 				B59492AD1BD126E0006C2E7B /* EELinesNode.cpp in Sources */,
