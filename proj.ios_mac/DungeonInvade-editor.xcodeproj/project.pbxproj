@@ -50,7 +50,6 @@
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		B51A33BF1BBD8BBE00024A34 /* 3d in Resources */ = {isa = PBXBuildFile; fileRef = B51A33B71BBD8BBE00024A34 /* 3d */; settings = {ASSET_TAGS = (); }; };
 		B51A33C21BBD8BBE00024A34 /* ios_ids.plist in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BA1BBD8BBE00024A34 /* ios_ids.plist */; settings = {ASSET_TAGS = (); }; };
-		B51A33C31BBD8BBE00024A34 /* maps in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BB1BBD8BBE00024A34 /* maps */; settings = {ASSET_TAGS = (); }; };
 		B51A33C41BBD8BBE00024A34 /* res in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BC1BBD8BBE00024A34 /* res */; settings = {ASSET_TAGS = (); }; };
 		B51A33C51BBD8BBE00024A34 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BD1BBD8BBE00024A34 /* sounds */; settings = {ASSET_TAGS = (); }; };
 		B51A33C61BBD8BBE00024A34 /* string.json in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BE1BBD8BBE00024A34 /* string.json */; settings = {ASSET_TAGS = (); }; };
@@ -118,12 +117,10 @@
 		B52159FC1BCFED8A0022EC33 /* images in Resources */ = {isa = PBXBuildFile; fileRef = B52159FB1BCFED8A0022EC33 /* images */; settings = {ASSET_TAGS = (); }; };
 		B52159FD1BCFEDDD0022EC33 /* images in Resources */ = {isa = PBXBuildFile; fileRef = B52159FB1BCFED8A0022EC33 /* images */; };
 		B52159FE1BCFEDDD0022EC33 /* mapdata in Resources */ = {isa = PBXBuildFile; fileRef = B5F85DDA1BC8FCA800905498 /* mapdata */; };
-		B52159FF1BCFEDDD0022EC33 /* graphic in Resources */ = {isa = PBXBuildFile; fileRef = B5F3A1E81BC58791002FDE82 /* graphic */; };
 		B5215A001BCFEDDD0022EC33 /* agents.json in Resources */ = {isa = PBXBuildFile; fileRef = B5F3A1E21BC51D87002FDE82 /* agents.json */; };
 		B5215A011BCFEDDD0022EC33 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = B551189D1BC00F4200587021 /* fonts */; };
 		B5215A021BCFEDDD0022EC33 /* 3d in Resources */ = {isa = PBXBuildFile; fileRef = B51A33B71BBD8BBE00024A34 /* 3d */; };
 		B5215A031BCFEDDD0022EC33 /* ios_ids.plist in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BA1BBD8BBE00024A34 /* ios_ids.plist */; };
-		B5215A041BCFEDDD0022EC33 /* maps in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BB1BBD8BBE00024A34 /* maps */; };
 		B5215A051BCFEDDD0022EC33 /* res in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BC1BBD8BBE00024A34 /* res */; };
 		B5215A061BCFEDDD0022EC33 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BD1BBD8BBE00024A34 /* sounds */; };
 		B5215A071BCFEDDD0022EC33 /* string.json in Resources */ = {isa = PBXBuildFile; fileRef = B51A33BE1BBD8BBE00024A34 /* string.json */; };
@@ -164,7 +161,6 @@
 		B5F3A1DF1BC50180002FDE82 /* BattleField-agentnode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1DE1BC50180002FDE82 /* BattleField-agentnode.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1E31BC51D87002FDE82 /* agents.json in Resources */ = {isa = PBXBuildFile; fileRef = B5F3A1E21BC51D87002FDE82 /* agents.json */; settings = {ASSET_TAGS = (); }; };
 		B5F3A1E71BC53637002FDE82 /* BattleField-cover.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F3A1E61BC53637002FDE82 /* BattleField-cover.cpp */; settings = {ASSET_TAGS = (); }; };
-		B5F3A1E91BC58791002FDE82 /* graphic in Resources */ = {isa = PBXBuildFile; fileRef = B5F3A1E81BC58791002FDE82 /* graphic */; settings = {ASSET_TAGS = (); }; };
 		B5F85DD91BC8FA6400905498 /* DDMapData-saveload.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F85DD81BC8FA6400905498 /* DDMapData-saveload.cpp */; settings = {ASSET_TAGS = (); }; };
 		B5F85DDB1BC8FCA800905498 /* mapdata in Resources */ = {isa = PBXBuildFile; fileRef = B5F85DDA1BC8FCA800905498 /* mapdata */; settings = {ASSET_TAGS = (); }; };
 		B5F85DDE1BC9342200905498 /* DDMapData-minmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5F85DDD1BC9342200905498 /* DDMapData-minmap.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -257,7 +253,6 @@
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		B51A33B71BBD8BBE00024A34 /* 3d */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 3d; sourceTree = "<group>"; };
 		B51A33BA1BBD8BBE00024A34 /* ios_ids.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ios_ids.plist; sourceTree = "<group>"; };
-		B51A33BB1BBD8BBE00024A34 /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
 		B51A33BC1BBD8BBE00024A34 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		B51A33BD1BBD8BBE00024A34 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
 		B51A33BE1BBD8BBE00024A34 /* string.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = string.json; sourceTree = "<group>"; };
@@ -320,7 +315,6 @@
 		B5F3A1DE1BC50180002FDE82 /* BattleField-agentnode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "BattleField-agentnode.cpp"; sourceTree = "<group>"; };
 		B5F3A1E21BC51D87002FDE82 /* agents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = agents.json; sourceTree = "<group>"; };
 		B5F3A1E61BC53637002FDE82 /* BattleField-cover.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "BattleField-cover.cpp"; sourceTree = "<group>"; };
-		B5F3A1E81BC58791002FDE82 /* graphic */ = {isa = PBXFileReference; lastKnownFileType = folder; path = graphic; sourceTree = "<group>"; };
 		B5F85DD81BC8FA6400905498 /* DDMapData-saveload.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "DDMapData-saveload.cpp"; sourceTree = "<group>"; };
 		B5F85DDA1BC8FCA800905498 /* mapdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mapdata; sourceTree = "<group>"; };
 		B5F85DDD1BC9342200905498 /* DDMapData-minmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "DDMapData-minmap.cpp"; sourceTree = "<group>"; };
@@ -453,12 +447,10 @@
 			children = (
 				B52159FB1BCFED8A0022EC33 /* images */,
 				B5F85DDA1BC8FCA800905498 /* mapdata */,
-				B5F3A1E81BC58791002FDE82 /* graphic */,
 				B5F3A1E21BC51D87002FDE82 /* agents.json */,
 				B551189D1BC00F4200587021 /* fonts */,
 				B51A33B71BBD8BBE00024A34 /* 3d */,
 				B51A33BA1BBD8BBE00024A34 /* ios_ids.plist */,
-				B51A33BB1BBD8BBE00024A34 /* maps */,
 				B51A33BC1BBD8BBE00024A34 /* res */,
 				B51A33BD1BBD8BBE00024A34 /* sounds */,
 				B51A33BE1BBD8BBE00024A34 /* string.json */,
@@ -750,11 +742,9 @@
 			files = (
 				B52159FC1BCFED8A0022EC33 /* images in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
-				B5F3A1E91BC58791002FDE82 /* graphic in Resources */,
 				B51A33C41BBD8BBE00024A34 /* res in Resources */,
 				B51A33C21BBD8BBE00024A34 /* ios_ids.plist in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
-				B51A33C31BBD8BBE00024A34 /* maps in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
@@ -787,12 +777,10 @@
 			files = (
 				B52159FD1BCFEDDD0022EC33 /* images in Resources */,
 				B52159FE1BCFEDDD0022EC33 /* mapdata in Resources */,
-				B52159FF1BCFEDDD0022EC33 /* graphic in Resources */,
 				B5215A001BCFEDDD0022EC33 /* agents.json in Resources */,
 				B5215A011BCFEDDD0022EC33 /* fonts in Resources */,
 				B5215A021BCFEDDD0022EC33 /* 3d in Resources */,
 				B5215A031BCFEDDD0022EC33 /* ios_ids.plist in Resources */,
-				B5215A041BCFEDDD0022EC33 /* maps in Resources */,
 				B5215A051BCFEDDD0022EC33 /* res in Resources */,
 				B5215A061BCFEDDD0022EC33 /* sounds in Resources */,
 				B5215A071BCFEDDD0022EC33 /* string.json in Resources */,
