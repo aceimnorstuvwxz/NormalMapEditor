@@ -49,6 +49,10 @@ bool EditorScene::init()
     addCommonBtn({0.9,0.95}, "save", [this](){
         save();
     });
+    addCommonBtn({0.7,0.95}, "back", [this](){
+        save();
+        Director::getInstance()->popScene();
+    });
 
     addCommonLabel({0.5,0.95}, EditState::s()->_moduleName);
 
