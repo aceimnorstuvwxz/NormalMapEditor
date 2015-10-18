@@ -63,6 +63,12 @@ void EditorScene::save()
             triangle.AddMember("cg", tri->color.y, doc.GetAllocator());
             triangle.AddMember("cb", tri->color.z, doc.GetAllocator());
             triangle.AddMember("ca", tri->color.w, doc.GetAllocator());
+
+            auto normal = calcTriangleNormal(tri->a->pos3d(), tri->b->pos3d(), tri->c->pos3d());
+            triangle.AddMember("nx", normal.x, doc.GetAllocator());
+            triangle.AddMember("ny", normal.y, doc.GetAllocator());
+            triangle.AddMember("nz", normal.z, doc.GetAllocator());
+
             triangles.PushBack(triangle, doc.GetAllocator());
         }
         obj.AddMember("triangles", triangles, doc.GetAllocator());

@@ -124,34 +124,7 @@ void EETrianglesNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
     CHECK_GL_ERROR_DEBUG();
 }
 
-Vec3 calcTriangleNormal(Vec3 a, Vec3 b, Vec3 c)
-{
-    /*
-    Begin Function CalculateSurfaceNormal (Input Triangle) Returns Vector
 
-    Set Vector U to (Triangle.p2 minus Triangle.p1)
-    Set Vector V to (Triangle.p3 minus Triangle.p1)
-
-    Set Normal.x to (multiply U.y by V.z) minus (multiply U.z by V.y)
-    Set Normal.y to (multiply U.z by V.x) minus (multiply U.x by V.z)
-    Set Normal.z to (multiply U.x by V.y) minus (multiply U.y by V.x)
-
-    Returning Normal
-    
-    End Function
-     */
-    Vec3 U = b - a;
-    Vec3 V = c - a;
-    Vec3 N;
-    N.x = U.y * V.z - U.z * V.y;
-    N.y = U.z * V.x - U.x * V.z;
-    N.z = U.x * V.y - U.y * V.x;
-
-    if (N.dot({0,0,1}) < 0) {
-        N = -N;
-    }
-    return N;
-}
 
 void EETrianglesNode::configTriangles(const std::list<std::shared_ptr<EETriangle>>& triangles)
 {

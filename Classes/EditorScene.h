@@ -9,6 +9,34 @@
 #include "delaunay.h"
 #include <algorithm>
 
+inline cocos2d::Vec3 calcTriangleNormal(cocos2d::Vec3 a, cocos2d::Vec3 b, cocos2d::Vec3 c)
+{
+    /*
+     Begin Function CalculateSurfaceNormal (Input Triangle) Returns Vector
+
+     Set Vector U to (Triangle.p2 minus Triangle.p1)
+     Set Vector V to (Triangle.p3 minus Triangle.p1)
+
+     Set Normal.x to (multiply U.y by V.z) minus (multiply U.z by V.y)
+     Set Normal.y to (multiply U.z by V.x) minus (multiply U.x by V.z)
+     Set Normal.z to (multiply U.x by V.y) minus (multiply U.y by V.x)
+
+     Returning Normal
+
+     End Function
+     */
+    cocos2d::Vec3 U = b - a;
+    cocos2d::Vec3 V = c - a;
+    cocos2d::Vec3 N;
+    N.x = U.y * V.z - U.z * V.y;
+    N.y = U.z * V.x - U.x * V.z;
+    N.z = U.x * V.y - U.y * V.x;
+
+    if (N.dot({0,0,1}) < 0) {
+        N = -N;
+    }
+    return N;
+}
 
 struct EEPoint
 {
