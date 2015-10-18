@@ -177,7 +177,7 @@ protected:
 
 
     // data
-    constexpr static int NUM_FRAME = 64;
+    constexpr static int NUM_FRAME = 32;
     constexpr static float DOT_SCALE = 0.08;
 
     std::unordered_map<int, std::shared_ptr<EEPoint>> _points[NUM_FRAME];

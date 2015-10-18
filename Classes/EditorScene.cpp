@@ -4,6 +4,7 @@
 #include "TRLocale.h"
 #include "format.h"
 #include "intersection.h"
+#include "EditState.h"
 
 USING_NS_CC;
 
@@ -41,13 +42,15 @@ bool EditorScene::init()
     initKeyboardMouse();
     addTestLights();
 
-    _lbFrameNum = Label::createWithTTF("F", "fonts/fz.ttf", 30);
-    _lbFrameNum->setPosition(genPos({0.9,0.9}));
+    _lbFrameNum = Label::createWithTTF("0", "fonts/fz.ttf", 30);
+    _lbFrameNum->setPosition(genPos({0.1,0.95}));
     _layer->addChild(_lbFrameNum);
 
-    addCommonBtn({0.1,0.95}, "save", [this](){
+    addCommonBtn({0.9,0.95}, "save", [this](){
         save();
     });
+
+    addCommonLabel({0.5,0.95}, EditState::s()->_moduleName);
 
     load();
     refreshLines();

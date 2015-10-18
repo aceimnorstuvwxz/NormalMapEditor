@@ -88,18 +88,24 @@ void EditorScene::save()
 void EditorScene::load()
 {
     CCLOG("load");
-    /*
+    auto fn = fmt::sprintf("/Users/chenbingfeng/Documents/NormalMapEditor/%s.json", EditState::s()->_moduleName);
+
     //clear
-    _data.clear();
-    _floatAssets.clear();
-    _abyssAssets.clear();
-    _skyAssets.clear();
+    for (auto a: _points) {
+        a.clear();
+    }
+    for (auto b : _triangles) {
+        b.clear();
+    }
+    for (auto c : _triangleColorMap) {
+        c.clear();
+    }
 
     //load
-    FILE* fp = fopen(file.c_str(), "r");
+    FILE* fp = fopen(fn.c_str(), "r");
 
     if (fp == NULL) {
-        CCLOG("error, file %s do not exist.", file.c_str());
+        CCLOG("load, file %s do not exist.", fn.c_str());
         return;
     }
 
@@ -110,103 +116,43 @@ void EditorScene::load()
     doc.ParseStream(is);
     fclose(fp);
 
-    assert(doc.HasMember("data"));
-    auto& data = doc["data"];
+    assert(doc.HasMember("frames"));
+    auto& data = doc["frames"];
     for (auto iter = data.Begin(); iter != data.End(); iter++){
-        RollNode mynode;
-        // position
-        auto& position = (*iter)["position"];
-        int tmpIndex = 0;
-        assert(position.Size() == 3);
-        for (auto jter = position.Begin(); jter != position.End(); jter++, tmpIndex++) {
-            if (tmpIndex == 0) {
-                mynode._position.x = jter->GetDouble();
-            } else if (tmpIndex == 1) {
-                mynode._position.y = jter->GetDouble();
-            } else {
-                mynode._position.z = jter->GetDouble();
-            }
-        }
-        // posture
-        auto& normal = (*iter)["posture"];
-        tmpIndex = 0;
-        assert(normal.Size() == 4);
-        for (auto jter = normal.Begin(); jter != normal.End(); jter++, tmpIndex++) {
-            if (tmpIndex == 0) {
-                mynode._posture.x = jter->GetDouble();
-            } else if (tmpIndex == 1) {
-                mynode._posture.y = jter->GetDouble();
-            } else if (tmpIndex == 2){
-                mynode._posture.z = jter->GetDouble();
-            } else {
-                mynode._posture.w = jter->GetDouble();
-            }
-        }
-        // type
-        mynode._type = (*iter)["type"].GetInt();
-        // glass
-        if ((*iter).HasMember("glass")) {
-            int glass = (*iter)["glass"].GetInt();
-            mynode._glass = glass != 0;
-        } else {
-            mynode._glass = false;
-        }
-        // end
-        if ((*iter).HasMember("end")) {
-            int end = (*iter)["end"].GetInt();
-            mynode._end = end != 0;
-        } else {
-            mynode._end = false;
-        }
-        // gate
-        if ((*iter).HasMember("gate")) {
-            int gate = (*iter)["gate"].GetInt();
-            mynode._gate = gate != 0;
-        } else {
-            mynode._gate = false;
+        int frameIndex = (*iter)["frameIndex"].GetInt();
+
+        // pidIndex
+        _pidIndex[frameIndex] = (*iter)["pidIndex"].GetInt();
+
+        // points
+        auto& points = (*iter)["points"];
+        for (auto jter = points.Begin(); jter != points.End(); jter++) {
+            auto point = std::make_shared<EEPoint>();
+            point->pid = (*jter)["pid"].GetInt();
+            point->position.x = (*jter)["x"].GetDouble();
+            point->position.y = (*jter)["y"].GetDouble();
+            point->height = (*jter)["height"].GetDouble();
+            point->sprite = Sprite::create("images/point_normal.png");
+            point->sprite->setPosition(help_relativePosition2editPosition(point->position));
+            point->sprite->setZOrder(Z_POINTS);
+            point->sprite->setScale(DOT_SCALE);
+            _pointLayer->addChild(point->sprite);
+            point->sprite->setVisible(false);
+            _points[frameIndex][point->pid] = point;
         }
 
-        // uncover
-        if ((*iter).HasMember("uncover")) {
-            int uncover = (*iter)["uncover"].GetInt();
-            mynode._uncover = uncover != 0;
-        } else {
-            mynode._uncover = false;
-        }
+        // triangles
+        auto& triangles = (*iter)["triangles"];
+        for (auto jter = triangles.Begin(); jter != triangles.End(); jter++) {
+            auto triangle = std::make_shared<EETriangle>();
+            triangle->a = _points[frameIndex][(*jter)["pa"].GetInt()];
+            triangle->b = _points[frameIndex][(*jter)["pb"].GetInt()];
+            triangle->c = _points[frameIndex][(*jter)["pc"].GetInt()];
 
-        _data.push_back(mynode);
-    }
-    if (doc.HasMember("float_assets")) {
-        // 加载assets，即“轨道”周边的建筑物的基点。。。
-        auto& assets = doc["float_assets"];
-        for (auto iter = assets.Begin(); iter != assets.End(); iter++) {
-            FloatAssetNode assetNode;
-            assetNode._position.x = (*iter)["x"].GetDouble();
-            assetNode._position.y = (*iter)["y"].GetDouble();
-            assetNode._position.z = (*iter)["z"].GetDouble();
-            _floatAssets.push_back(assetNode);
+            _triangleColorMap[frameIndex][triangle->calcKey()] = Vec4{static_cast<float>((*jter)["cr"].GetDouble()),static_cast<float>((*jter)["cg"].GetDouble()),static_cast<float>((*jter)["cb"].GetDouble()),static_cast<float>((*jter)["ca"].GetDouble())};
+            triangle->color = _triangleColorMap[frameIndex][triangle->calcKey()];
+            _triangles[frameIndex].push_back(triangle);
         }
     }
-    if (doc.HasMember("abyss_assets")) {
-        // 加载assets，即“轨道”周边的建筑物的基点。。。
-        auto& assets = doc["abyss_assets"];
-        for (auto iter = assets.Begin(); iter != assets.End(); iter++) {
-            AbyssAssetNode assetNode;
-            assetNode._position.x = (*iter)["x"].GetDouble();
-            assetNode._position.y = (*iter)["y"].GetDouble();
-            assetNode._position.z = (*iter)["z"].GetDouble();
-            _abyssAssets.push_back(assetNode);
-        }
-    }
-    if (doc.HasMember("sky_assets")) {
-        // 加载assets，即“轨道”周边的建筑物的基点。。。
-        auto& assets = doc["sky_assets"];
-        for (auto iter = assets.Begin(); iter != assets.End(); iter++) {
-            SkyAssetNode assetNode;
-            assetNode._position.x = (*iter)["x"].GetDouble();
-            assetNode._position.y = (*iter)["y"].GetDouble();
-            assetNode._position.z = (*iter)["z"].GetDouble();
-            _skyAssets.push_back(assetNode);
-        }
-    }*/
+    switchAllDots(true);
 }

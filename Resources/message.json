@@ -3,7 +3,7 @@
     "title":"Dungeon Craft(Complex) Resource Editor",
     "copyright":"©2015 湍流游戏\nwww.turnro.com",
     "input_desc":"输入module名称",
-    "version":"v0.0.1",
+    "version":"v1.0.0",
     
     "unreal_bottom":"Add bottom",
     "unreal_wall":"Add wall",
