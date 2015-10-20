@@ -104,7 +104,7 @@ void EELinesNode::onDraw(const cocos2d::Mat4 &transform, uint32_t flags)
     //    glEnable(GL_DEPTH_TEST);
     //    glDepthMask(true);
 
-    glLineWidth(2);
+//    glLineWidth(2);
     glDrawArrays(GL_LINES, 0, _count);
 
     if (Configuration::getInstance()->supportsShareableVAO())
