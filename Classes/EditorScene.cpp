@@ -59,6 +59,7 @@ bool EditorScene::init()
     load();
     refreshLines();
     refreshTriangles();
+    refreshDiggColor();
 
     return true;
 }
@@ -234,6 +235,25 @@ cocos2d::Vec2 EditorScene::help_relativePosition2editPosition(const cocos2d::Vec
     return {relativePosition.x * size.width/2, relativePosition.y * size.width/2};
 }
 
+float EditorScene::findNearestHeight(cocos2d::Vec2 relativePos)
+{
+    if (_points[_frameIndex].empty()) {
+        return 0;
+    } else {
+        float distanceNearest = 10000;
+        float height = 0;
+        for (auto p : _points[_frameIndex]) {
+            auto len = p.second->position.distance(relativePos);
+            if (len < distanceNearest) {
+                distanceNearest = len;
+                height = p.second->height;
+            }
+        }
+        return height;
+    }
+}
+
+
 void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
 {
     clearSelection();
@@ -241,7 +261,7 @@ void EditorScene::addPoint(const cocos2d::Vec2 &rawpos)
     auto pos = help_touchPoint2editPosition(rawpos);
     auto point = std::make_shared<EEPoint>();
     point->position = help_editPosition2relativePosition(pos);
-    point->height = 0;
+    point->height = findNearestHeight(point->position);
     point->sprite = Sprite::create("images/point_normal.png");
     point->sprite->setPosition(help_relativePosition2editPosition(point->position));
     point->sprite->setZOrder(Z_POINTS);
@@ -328,7 +348,7 @@ void EditorScene::refreshTriangles()
     for (auto tri : _triangles[_frameIndex]) {
         int key = tri->calcKey();
         if (_triangleColorMap[_frameIndex].count(key) == 0) {
-            _triangleColorMap[_frameIndex][key] = Vec4{0.5,0.5,0.5, 1.0};
+            _triangleColorMap[_frameIndex][key] = _diggingColor;
         }
         tri->color = _triangleColorMap[_frameIndex][key];
     }
@@ -449,6 +469,9 @@ void EditorScene::diggColor(cocos2d::Vec2 rawpos)
 {
     clearSelection();
     float radio = 1.0*rawpos.x/1024.0;
+    if (radio < 0.05) {
+        radio = 0;
+    }
     if (rawpos.y < 44) {
         _diggingColor.w = radio;
     } else if (rawpos.y < 44*2) {
@@ -469,7 +492,8 @@ void EditorScene::diggColor(cocos2d::Vec2 rawpos)
 void EditorScene::refreshDiggColor()
 {
     _diggColorLabel->setString(fmt::sprintf(" |||||||||||||||||||||||||R=%.2f, G=%.2f, B=%.2f, A=%.2f |||||||||||||||||||||||||", _diggingColor.x, _diggingColor.y, _diggingColor.z, _diggingColor.w));
-    _diggColorLabel->setTextColor({static_cast<GLubyte>(_diggingColor.x*255),static_cast<GLubyte>(_diggingColor.y*255), static_cast<GLubyte>(_diggingColor.z*255), static_cast<GLubyte>(_diggingColor.w*255)});
+    _diggColorLabel->setTextColor({static_cast<GLubyte>(_diggingColor.x*255),static_cast<GLubyte>(_diggingColor.y*255), static_cast<GLubyte>(_diggingColor.z*255), static_cast<GLubyte>(std::max(50,static_cast<int>(_diggingColor.w*255)))});
+    _diggColorLabel->enableOutline(Color4B::WHITE);
 }
 
 void EditorScene::shadingTriangle(cocos2d::Vec2 rawpos)

@@ -164,9 +164,15 @@ protected:
 
     void initKeyboardMouse();
     std::shared_ptr<EEPoint> findSelectedPoint(const cocos2d::Vec2& rawpos);
+
+    // 找到邻近点的高度
+    float findNearestHeight(cocos2d::Vec2 relativePos);
+
     void addPoint(const cocos2d::Vec2& rawpos);
     void selectPoint(const cocos2d::Vec2 rawpos, bool ismulti);
     void deletePoint(const cocos2d::Vec2& rawpos);
+
+
 
     EELinesNode* _linesNode;
     void initLinesThings();
@@ -192,7 +198,7 @@ protected:
     void delaunay();
 
 
-    cocos2d::Vec4 _diggingColor;
+    cocos2d::Vec4 _diggingColor = {0.5,0.5,0.5,1.0};
     cocos2d::Sprite* _diggColorPanel;
     cocos2d::Label* _diggColorLabel;
 

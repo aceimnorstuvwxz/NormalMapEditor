@@ -34,7 +34,7 @@ vec3 computeLighting(vec3 diffuseColor, vec3 specularColor, vec3 normal, vec3 li
 
 void main()
 {
-    vec3 col = computeLighting(v_color.rgb, vec3(1.0,1.0,1.0), normalize(v_normal), normalize(vec3(u_light_position,200.)), 1.0);
+    vec3 col = computeLighting(v_color.rgb, vec3(1.0,1.0,1.0), normalize(v_normal), normalize(vec3(u_light_position,200.)), v_color.a);
 
     gl_FragColor = vec4(col.rgb,1.0);
 }
