@@ -6,7 +6,7 @@ uniform int u_building_animation_index;
 
 uniform vec2 u_light_position;
 
-const float shininess = 16.0;
+const float shininess = 32.0;
 const float screenGamma = 2.2; // Assume the monitor is calibrated to the sRGB color space
 
 uniform int u_show_state;
@@ -17,7 +17,6 @@ vec3 computeLighting(vec3 diffuseColor, vec3 specularColor, vec3 normal, vec3 li
     float lambertian = max(dot(lightDir, normal), 0.0);
     float specular = 0.0;
 
-    /*
     if (lambertian > 0.0) {
         vec3 viewDir = vec3(0.0,0.0,1.0);
 
@@ -25,7 +24,7 @@ vec3 computeLighting(vec3 diffuseColor, vec3 specularColor, vec3 normal, vec3 li
         vec3 halfDir = normalize(lightDir + viewDir);
         float specAngle = max(dot(halfDir, normal), 0.0);
         specular = pow(specAngle, shininess);
-    }*/
+    }
     vec3 colorLinear = (lambertian * diffuseColor + specular * specularColor) * lightRadio;
 
     return colorLinear;
