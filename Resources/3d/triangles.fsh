@@ -16,7 +16,7 @@ vec3 computeLighting(vec3 diffuseColor, vec3 specularColor, vec3 normal, vec3 li
 {
     float lambertian = max(dot(lightDir, normal), 0.0);
     float specular = 0.0;
-
+/*
     if (lambertian > 0.0) {
         vec3 viewDir = vec3(0.0,0.0,1.0);
 
@@ -24,7 +24,7 @@ vec3 computeLighting(vec3 diffuseColor, vec3 specularColor, vec3 normal, vec3 li
         vec3 halfDir = normalize(lightDir + viewDir);
         float specAngle = max(dot(halfDir, normal), 0.0);
         specular = pow(specAngle, shininess);
-    }
+    }*/
     vec3 colorLinear = (lambertian * diffuseColor + specular * specularColor) * lightRadio;
 
     return colorLinear;
